@@ -6,3 +6,26 @@ max-width: 40rem;
 margin: 2rem auto;
 padding: 0 1rem;
 }
+
+#scavenge-button {
+background: #3a2f22;
+color: #ffd27a;
+border: 1px solid #6b5535;
+padding: .5rem .9rem;
+cursor: pointer;
+font: inherit;
+}
+
+#scavenge-button:hover:not(:disabled) { background: #52412d; }
+#scavenge-button:disabled { opacity: .4; cursor: default; }
+
+#log {
+height: 12rem;
+overflow-y: auto;
+border: 1px solid #3a2f22;
+padding: .5rem;
+margin-top: 1rem;
+}
+
+.good { color: #8fd18f; }
+.bad { color: #e07a6a; }
