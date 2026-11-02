@@ -4,22 +4,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div id='log'></div>
+    <title>Abyss</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body hidden>   
+    <div class="page">
+
+        <div class='topbar'>
+            <h1>Abyss</h1>
+            <div class='tabs'>
+                <a class='tab on' data-tab="dive">Expedition</a>
+                <a class='tab' data-tab="divers">Divers</a>
+                <!-- <a class='tab' data-tab="shipyard">Shipyard</a>
+                <a class='tab' data-tab="upgrades">Upgrades</a> -->
+            </div>
+
+            <details class='settings'>
+                <summary>Settings</summary>
+                <div class='settings-box'>
+                    <label><input type='checkbox'>Calm mode</label>
+                </div>
+            </details>
+        </div>
+
+        <div class='currency'>
+            <span class='label'>Sand dollars</span>
+            <span class='money' data-state='sandDollars' id="sandDollars">142,805</span>
+            <div class="rate">
+                <span class='muted' data-state='sandRate'>+3.2/s</span>
+            </div>
+        </div>
+
+
+
+
+        <!-- TAB PAGES -->
+        <section id="tab-dive" class="tabpage">
+            <div class="layout">
+
+                <div class="left">
+                    <div class="panel">
+                        <h2>Captain</h2>
+                        <button class="big" id="dive-button">Dive</button>
+                        <div class="row">
+                            <button>&minus;</button>
+                            <div class="center">
+                                <span class="label">Floor</span><b data-state="floorSelected">9</b>
+                                <span class="muted" data-state="floorSelectedName">Twilight</span>
+                            </div>
+                            <button>&plus;</button>
+                        </div>
+
+                        <p class="muted">Survival at floor <span data-state="floorSelected">9</span>: <span data-state="survivalRate">94</span>%</p>
+                        <p class="muted">Your deepest: floor <span data-state="floorRecord">10</span></p>
+
+                        <!-- <span class="label">Oxygen 74/100</span>
+                        <progress value="74" max="100"></progress> -->
+
+                        <!-- <h2>Stats</h2>
+                        <div class="row">
+                            <span>Endurance <b>9</b></span>
+                            <button class="stat-button">+ 1</button>
+                        </div>
+                        <div class="row">
+                            <span>Agility <b>12</b></span>
+                            <button class="stat-button">+ 1</button>
+                        </div>
+                        <div class="row">
+                            <span>Strength <b>7</b></span>
+                            <button class="stat-button">+ 1</button>
+                        </div>
+                        <div class="row">
+                            <span>Luck <b>5</b></span>
+                            <button class="stat-button">+ 1</button>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="right narrow">
+                    <div class="panel">
+                        <h2>Expedition log</h2>
+                        <div class="logbox tall" id="logbox">
+                            <!-- <div>You dove to floor 8 (Twilight) and found 24 sand dollars.</div>
+                            <div>Level up: You are now level 4.</div>
+                            <div><span class="muted">Notice</span> Your divers can now follow you down to floor 10.</div>
+                            <div class="bad">You were lost at floor 11 and lost 1,248 sand dollars.</div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- <section id='tab-divers' class='tabpage' hidden>
+            <div class='layout'>
+        
+            <div class='left'>
+                <div class='panel'>
+                <h2>Divers <span class='muted'>214</span></h2>
+                <span class='label'>Risk dial</span>
+                <div class='row'>
+                    <button>Very careful</button>
+                    <button class='on'>Careful</button>
+                </div>
+                <div class='row'>
+                    <button>Bold</button>
+                    <button>Reckless</button>
+                </div>
+                <button class='big on'>Hire diver: 733 sand dollars</button>
+                </div>
+        
+                <div class='panel'>
+                <h2>Pinned</h2>
+                <div><b>Mira Okafor</b> <span class='muted'>floor 9</span></div>
+                <div>Floor 9: found a Pearl.</div>
+                <div>Floor 11: new personal depth.</div>
+                <br>
+                <button>Unpin</button>
+                </div>
+            </div>
+        
+            <div class='right'>
+                <div class='split'>
+        
+                <div class='panel'>
+                    <h2>The Flood <span class='muted'>211 divers at sea</span></h2>
+                    <div class='row'>
+                    <button class='on'>All</button>
+                    <button>Followed</button>
+                    <button>Notable</button>
+                    </div>
+                    <div class='logbox medium'>
+                    <div><button class='name'>Mira Okafor</button> returned from floor 9 (+31).</div>
+                    <div class='muted'>+46 more divers returned (+1,208)</div>
+                    <div><button class='name'>Tomas Reyes</button> returned from floor 7 (+22).</div>
+                    <div class='bad'><button class='name bad'>Aiko Tanaka</button> was lost at floor 12.</div>
+                    <div><button class='name'>Dev Voss</button> found a Sealed Bottle (floor 16).</div>
+                    <div class='muted'>+61 more divers returned (+1,977)</div>
+                    <div><button class='name'>Lena Bell</button> returned from floor 10 (+28).</div>
+                    <div><button class='name'>Juno Marsh</button> returned from floor 8 (+25).</div>
+                    <div class='muted'>+38 more divers returned (+902)</div>
+                    <div><button class='name'>Priya Kowal</button> returned from floor 11 (+40).</div>
+                    </div>
+                    <p class='muted'>Hover to freeze. Click a name for their card.</p>
+                </div>
+        
+                <div class='panel'>
+                    <div class='row'>
+                    <h2>Mira Okafor</h2>
+                    <button class='on'>Pin</button>
+                    </div>
+                    <p class='muted'>Diver #4812. Diving at floor 9.</p>
+                    <p>Lucky, Stubborn</p>
+                    <p class='muted'>Power 52. Deepest floor 11. 212 trips.</p>
+                    <span class='label'>Carrying</span>
+                    <p>Pearl x2, Glass Float x1</p>
+                    <span class='label'>Log</span>
+                    <div>Floor 9: returned with 31 sand dollars.</div>
+                    <div>Floor 9: found a Pearl.</div>
+                    <div>Floor 11: new personal depth.</div>
+                    <div>Floor 8: returned with 25 sand dollars.</div>
+                </div>
+        
+                </div>
+            </div>
+        
+            </div>
+        </section> -->
+        
+
+
+        <!-- <section id='tab-shipyard' class='tabpage' hidden>
+            <div class='panel'><h2>Shipyard</h2><p class='muted'>Coming soon.</p></div>
+        </section>
+        
+        <section id='tab-upgrades' class='tabpage' hidden>
+            <div class='panel'><h2>Upgrades</h2><p class='muted'>Coming soon.</p></div>
+        </section> -->
+
+    </div>
+
     
-    <p>
-        Bottle caps: <span id='caps'>0</span>
-    </p>
-    <p>
-        Scrap: <span id='scrap'>0</span>
-    </p>
-
-    <button id='scavenge-button'>Scavenge</button>
-    <script src='game.js'></script>
-
+    <script src="data.js"></script>
+    <script src="functions.js"></script>    
+    <script src="game.js"></script>
 </body>
 
 </html>

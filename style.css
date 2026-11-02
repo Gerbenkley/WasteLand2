@@ -1,31 +1,202 @@
+/* ---------- Page basics ---------- */
 body {
-background: #14110f;
-color: #d8cfbf;
-font-family: 'Courier New', monospace;
-max-width: 40rem;
-margin: 2rem auto;
-padding: 0 1rem;
+  background: #07161f;
+  color: #cfe8ef;
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  margin: 1;
 }
 
-#scavenge-button {
-background: #3a2f22;
-color: #ffd27a;
-border: 1px solid #6b5535;
-padding: .5rem .9rem;
-cursor: pointer;
-font: inherit;
+
+/* ---------- Small helpers ---------- */
+.page {
+  max-width: 1240px;
+  margin: 0;
+  padding: 5px;
+}
+.muted { color: #8fb3c0; }
+.bad { color: #ff9b8a; }
+.label { display: block; color: #8fb3c0; font-size: 14px; }
+
+
+/* ---------- Top bar ---------- */
+.topbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+}
+h1 {
+  margin: 0;
+  font-size: 48px;
 }
 
-#scavenge-button:hover:not(:disabled) { background: #52412d; }
-#scavenge-button:disabled { opacity: .4; cursor: default; }
-
-#log {
-height: 12rem;
-overflow-y: auto;
-border: 1px solid #3a2f22;
-padding: .5rem;
-margin-top: 1rem;
+/* ---------- Settings (a box you open and close) ---------- */
+.settings {
+  position: relative;
 }
 
-.good { color: #8fd18f; }
-.bad { color: #e07a6a; }
+.settings summary {
+  list-style:none;
+}
+
+.settings-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0px;
+  padding: 0px;
+  background: #07161f;
+  border: 1px solid #2a6a85;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* ---------- Sand dollars ---------- */
+.currency {
+  display: inline-block;
+  min-width: 300px;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border: 1px solid #2a6a85;
+}
+
+.money {
+  font-size: 24px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ---------- Buttons and tabs ---------- */
+summary {
+    font: inherit;
+    cursor: pointer;
+}
+
+button, .tab {
+    font: inherit;
+    color: #8fe3ff;
+    background: #123446;
+    border: 1px solid #2a6a85;
+    padding: 13px 16px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.on {
+    background: #8fe3ff;
+    color: #07161f;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.big {
+  width: 100%;
+  font-size: 20px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+
+/* A name in the Flood: a button that looks like a link */
+.name {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #8fe3ff;
+  text-decoration: underline;
+}
+
+/* ---------- Layout: left column + right column ---------- */
+.layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 16px;
+    align-items: flex;
+}
+
+.left {
+    width: 340px;
+}
+
+.right {
+    flex: 1;
+    min-width: 320px;
+}
+
+.narrow {
+    flex: none;
+    width: 520px;
+}
+
+
+
+/* ---------- Boxes ---------- */
+.panel {
+    border: 1px solid #2a6a85;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.panel h2 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.center {
+    text-align: center;
+}
+
+.stat-button {
+    padding: 2px;
+    width: 80px;
+}
+
+
+
+progress {
+    width: 100%;
+    height: 14px;
+    accent-color: #8fe3ff;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* ---------- Logs ---------- */
+.logbox {
+    border: 1px solid #123446;
+    padding: 8px;
+    overflow: auto;
+}
+
+.logbox div {
+    margin-bottom: 4px;
+}
+
+.tall {height: 300px;}
+.medium {height: 150;}
+.short {height: 84;}
+
+
+
+/* ---------- Divers tab: Flood and card side by side ---------- */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.split .panel {
+  flex: 1 1 280px;
+}

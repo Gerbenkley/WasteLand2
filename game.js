@@ -1,30 +1,52 @@
-const state = { caps: 0, scrap: 0 };
-
-function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+const STATE = {
+    sandDollars: 0,
+    sandRate: 0,
+    floorSelected: 1,
+    floorRecord: 1,
+    floorSelectedName: "Twilight",
+    survivalRate: 100,
 }
 
-function addLog(text, kind) {
-    const log = document.getElementById('log');
+function initialize() {
+    STATE.floorSelectedName = getCurrentZone().name;
+
+    document.querySelectorAll("[data-state]").forEach(element => {
+        const property = element.dataset.state;
+        element.textContent = STATE[property];
+    });
+
+    document.body.hidden = false;
+}
+
+
+
+
+function addLog(text) {
+    const log = document.getElementById('logbox');
     const line = document.createElement('div');
     line.textContent = text;
-    if (kind) line.className = kind;
     log.appendChild(line);
     log.scrollTop = log.scrollHeight;
 }
-function render() {
-    document.getElementById('caps').textContent = state.caps;
-    document.getElementById('scrap').textContent = state.scrap;
+
+function renderUI() {
+    document.getElementById('sandDollars').textContent = STATE.sandDollars
 }
 
-function scavenge() {
-    const caps = randInt(1, 10);
-    const scrap = randInt(0, 3);
-    state.caps += caps;
-    state.scrap += scrap;
-    addLog('You found ' + caps + ' caps and ' + scrap + ' scrap.', 'good');
-    render();
+
+
+
+
+function dive() {
+    const currency = randInt(1, 10);
+    STATE.sandDollars += currency;
+    addLog("You found " + currency + " Sand Dollars.");
+    renderUI();
 }
 
-document.getElementById('scavenge-button').addEventListener('click', scavenge);
-render();
+
+
+
+
+initialize();
+document.getElementById('dive-button').addEventListener('click', dive);
