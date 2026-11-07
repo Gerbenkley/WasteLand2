@@ -32,7 +32,7 @@
             <span class='label'>Sand dollars</span>
             <span class='money' data-state='sandDollars' id="sandDollars">142,805</span>
             <div class="rate">
-                <span class='muted' data-state='sandRate'>+3.2/s</span>
+            <div class="rate">+<span data-state="sandRate">3.2</span>/s</div>
             </div>
         </div>
 
@@ -45,20 +45,29 @@
 
                 <div class="left">
                     <div class="panel">
-                        <h2>Captain</h2>
-                        <button class="big" id="dive-button">Dive</button>
                         <div class="row">
-                            <button>&minus;</button>
+                            <h2 class="row">Captain</h2>
+                            <h2 class="row">Level: <span data-state="captainLevel">3</span></h2>
+                        </div>
+                        <div class="row">
+                            <button class="floorButton" id="floorMinus">&minus;</button>
                             <div class="center">
-                                <span class="label">Floor</span><b data-state="floorSelected">9</b>
+                                <div>
+                                    <span class="floorLabel">Floor: </span>
+                                    <b data-state="floorSelected">9</b>
+                                </div>
                                 <span class="muted" data-state="floorSelectedName">Twilight</span>
                             </div>
-                            <button>&plus;</button>
+                            <button class="floorButton" id="floorPlus">&plus;</button>
                         </div>
 
-                        <p class="muted">Survival at floor <span data-state="floorSelected">9</span>: <span data-state="survivalRate">94</span>%</p>
-                        <p class="muted">Your deepest: floor <span data-state="floorRecord">10</span></p>
 
+                        <button class="big" id="dive-button">Dive</button>
+
+                        <p class="floorStats">Survival at floor <span data-state="floorSelected">9</span>: <span data-state="survivalRate">94</span>%</p>
+                        <p class="floorStats">Your deepest: floor <span data-state="floorRecord">10</span></p>
+
+                        
                         <!-- <span class="label">Oxygen 74/100</span>
                         <progress value="74" max="100"></progress> -->
 
@@ -174,21 +183,20 @@
             </div>
         </section> -->
         
-
-
         <!-- <section id='tab-shipyard' class='tabpage' hidden>
             <div class='panel'><h2>Shipyard</h2><p class='muted'>Coming soon.</p></div>
-        </section>
+        </section> -->
         
-        <section id='tab-upgrades' class='tabpage' hidden>
+        <!-- <section id='tab-upgrades' class='tabpage' hidden>
             <div class='panel'><h2>Upgrades</h2><p class='muted'>Coming soon.</p></div>
         </section> -->
 
     </div>
 
-    
+    <script src="locations.js"></script>
     <script src="data.js"></script>
-    <script src="functions.js"></script>    
+    <script src="functions.js"></script>
+    <script src="dive.js"></script>    
     <script src="game.js"></script>
 </body>
 

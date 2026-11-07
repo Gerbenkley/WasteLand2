@@ -27,3 +27,22 @@ const ZONES = [
   { name: 'Twilight', from: 7,  to: 15, finds: { 'Rusted Helmet': 4, 'Glowing Jar': 3, 'Pearl': 2 } },
   { name: 'Midnight', from: 16, to: 30, finds: { 'Sealed Bottle': 4, 'Brass Compass': 3, 'Pearl': 3 } }
 ];
+
+
+//STATE
+const STATE = {
+    sandDollarsEarned: 0,
+    sandDollars: 0,
+    sandRate: 0,
+    captainLevel: 1,
+    totalXP: 0,
+    floorSelected: 1,
+    floorSelectedName: "Twilight",
+    floorRecord: 1,
+    floorBought: 8,
+    survivalRate: 100,
+
+    inventory: {
+        banana: 0,
+    }
+}
