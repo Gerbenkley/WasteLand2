@@ -4,56 +4,6 @@ function initialize() {
     document.body.hidden = false;
 }
 
-//FLOOR + AND -
-function checkFloorButtons() {
-    if (STATE.floorSelected === 1) {
-        document.getElementById('floorMinus').classList.add('invisible');
-    } else {
-        document.getElementById('floorMinus').classList.remove('invisible');
-    }
-    if (STATE.floorSelected === STATE.floorBought) {
-        document.getElementById('floorPlus').classList.add('invisible');
-    } else {
-        document.getElementById('floorPlus').classList.remove('invisible');
-    }
-}
-function floorMinus() {
-    STATE.floorSelected--
-    renderUI();
-}
-function floorPlus() {
-    STATE.floorSelected++
-    renderUI();
-}
-
-//TAB BUTTONS
-const tabButtons = document.querySelectorAll('.tab');
-const tabPages = document.querySelectorAll('.tabpage');
-function showTab(name) {
-  for (const page of tabPages) {
-    page.hidden = page.id !== 'tab-' + name;
-  }
-  for (const button of tabButtons) {
-    button.classList.toggle('on', button.dataset.tab === name);
-  }
-}
-for (const button of tabButtons) {
-  button.addEventListener('click', () => showTab(button.dataset.tab));
-}
-
-//RANDOM INT
-function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-//NAME OF CURRENT ZONE
-function getCurrentZone() {
-    return ZONES.find(zone =>
-        STATE.floorSelected >= zone.from &&
-        STATE.floorSelected <= zone.to
-    );
-}
-
 //CLEAR LOG
 function clearLog(log) {
     log.innerHTML = "";
@@ -131,6 +81,64 @@ async function addTypedLine(container, text, delay = 3) {
     await typeWaitingLines();
 }
 
+//TAB BUTTONS
+const tabButtons = document.querySelectorAll('.tab');
+const tabPages = document.querySelectorAll('.tabpage');
+function showTab(name) {
+  for (const page of tabPages) {
+    page.hidden = page.id !== 'tab-' + name;
+  }
+  for (const button of tabButtons) {
+    button.classList.toggle('on', button.dataset.tab === name);
+  }
+}
+for (const button of tabButtons) {
+  button.addEventListener('click', () => showTab(button.dataset.tab));
+}
+
+//FLOOR + AND -
+function checkFloorButtons() {
+    if (STATE.floorSelected === 1) {
+        document.getElementById('floorMinus').classList.add('invisible');
+    } else {
+        document.getElementById('floorMinus').classList.remove('invisible');
+    }
+    if (STATE.floorSelected === STATE.floorBought) {
+        document.getElementById('floorPlus').classList.add('invisible');
+    } else {
+        document.getElementById('floorPlus').classList.remove('invisible');
+    }
+}
+function floorMinus() {
+    STATE.floorSelected--
+    renderUI();
+}
+function floorPlus() {
+    STATE.floorSelected++
+    renderUI();
+}
+
+
+//RANDOM INT
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//NAME OF CURRENT ZONE
+function getCurrentZone() {
+    return Object.values(LOCATIONS).find(zone =>
+        STATE.floorSelected >= zone.floorRange[0] &&
+        STATE.floorSelected <= zone.floorRange[1]
+    );
+}
+
+function getZoneKey(floor) {
+    return Object.keys(LOCATIONS).find(zoneKey => {
+        const [min, max] = LOCATIONS[zoneKey].floorRange;
+        return floor >= min && floor <= max;
+    });
+}
+
 //DISABLE/ENABLE BUTTONS
 function disableButtons() {
     document.getElementById('dive-button').disabled = true;
@@ -151,4 +159,7 @@ function renderUI() {
         element.textContent = STATE[property];
     });
     checkFloorButtons();
+
+    document.title = `Abyss - ${STATE.sandDollars}`;
+    document.getElementById("hireCost").textContent = hireCost();
 }

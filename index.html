@@ -28,14 +28,25 @@
             </details>
         </div>
 
-        <div class='currency'>
-            <span class='label'>Sand dollars</span>
-            <span class='money' data-state='sandDollars' id="sandDollars">142,805</span>
-            <div class="rate">
-            <div class="rate">+<span data-state="sandRate">3.2</span>/s</div>
+        <div class="topstrip">
+            <div class='currency'>
+                <span class='label'>Sand dollars</span>
+                <span class='money' data-state='sandDollars' id="sandDollars">142,805</span>
+                <div class="rate">
+                <div class="rate">+<span data-state="sandRate">3.2</span>/s</div>
+                </div>
+            </div>
+
+            <div class='upgrades'>
+                <span class='label'>Upgrades</span>
+                <div class='tiles'>
+                    <button class='tile' id="testTile"><span>Hire</span><span class='muted' id="hireCost">0</span></button>
+                    <button class='tile owned' title='Dive suit (owned)'><span>Suit</span><span class='muted'>owned</span></button>
+                    <button class='tile' title='Lamp: see more finds' disabled><span>Lamp</span><span class='muted'>400</span></button>
+                    <button class='tile' title='Locked' disabled><span>?</span><span class='muted'>locked</span></button>
+                </div>
             </div>
         </div>
-
 
 
 
@@ -197,6 +208,7 @@
     <script src="data.js"></script>
     <script src="functions.js"></script>
     <script src="dive.js"></script>    
+    <script src="diver.js"></script>    
     <script src="game.js"></script>
 </body>
 

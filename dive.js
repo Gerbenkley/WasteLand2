@@ -16,21 +16,32 @@ function addChoice(container, text, callback) {
 
 //CHOOSE AMOUNT OF RANDOM LOCATIONS
 function pickRandomLocations(amount) {
-    const locations = Object.keys(LOCATIONS);
-    const shuffled = [...locations].sort(() => Math.random() - 0.5);
+    const zone = getCurrentZone();
+
+    const locations = Object.keys(zone.locations).filter(locationKey => {
+        return STATE.floorSelected >= zone.locations[locationKey].unlockFloor;
+    });
+
+    const shuffled = [...locations];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
 
     return shuffled.slice(0, amount);
 }
 
 //SHOW 3 RANDOM LOCATIONS
 async function pickLocation() {
+    const zone = getCurrentZone();
     const locations = pickRandomLocations(3);
 
     await addTypedLine(logbox, "Which path do you want to take?", 15);
 
     return new Promise(resolve => {
         locations.forEach(locationKey => {
-            addChoice(logbox, LOCATIONS[locationKey].name, () => {
+            addChoice(logbox, zone.locations[locationKey].name, () => {
                 resolve(locationKey);
             });
         });
@@ -52,7 +63,8 @@ async function showLocation(location) {
 //SELECT CHOSEN LOCATION
 async function selectLocation(locationKey) {
     clearLog(logbox);
-    const location = LOCATIONS[locationKey];
+    const zone = getCurrentZone();
+    const location = zone.locations[locationKey];
 
     await showLocation(location);
 
@@ -84,7 +96,8 @@ async function confirmEntry() {
 //ENTER LOCATION
 async function enterLocation(locationKey) {
     clearLog(logbox);
-    const location = LOCATIONS[locationKey];
+    const zone = getCurrentZone();
+    const location = zone.locations[locationKey];
 
     await addTypedLine(logbox, "You go inside...", 20);
     await addTypedLine(logbox, "[bold red]. . .[/bold red]", 100);
