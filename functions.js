@@ -163,3 +163,61 @@ function renderUI() {
     document.title = `Abyss - ${STATE.sandDollars}`;
     document.getElementById("hireCost").textContent = hireCost();
 }
+
+
+
+
+
+
+let floodFrozen = false;
+let floodWaiting = [];
+
+function addFloodLine(text) {
+    if (floodFrozen) {
+        floodWaiting.push(text);
+        if (floodWaiting.length > 100) {
+            floodWaiting.shift();
+        }
+        return;
+    }
+    writeFloodLine(text);
+}
+
+function writeFloodLine(text) {
+    const box = document.getElementById("floodbox");
+
+    // Is the reader at the bottom? (A few pixels of slack.)
+    const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 10;
+
+    const line = document.createElement("div");
+    line.textContent = text;
+    box.appendChild(line);
+
+    if (box.children.length > 100) {
+        const before = box.scrollHeight;
+        box.firstElementChild.remove();
+        const removed = before - box.scrollHeight;
+
+        if (!atBottom) {
+            box.scrollTop -= removed;
+        }
+    }
+
+    if (atBottom) {
+        box.scrollTop = box.scrollHeight;
+    }
+}
+
+const floodbox = document.getElementById("floodbox");
+
+floodbox.addEventListener("mouseenter", () => {
+    floodFrozen = true;
+});
+
+floodbox.addEventListener("mouseleave", () => {
+    floodFrozen = false;
+    for (const text of floodWaiting) {
+        writeFloodLine(text);
+    }
+    floodWaiting = [];
+});

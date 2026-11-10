@@ -23,9 +23,12 @@ function gameLoop() {
         if (diver.returnsAt > timeNow) {
             continue;
         }
-        
-        STATE.sandDollars += diver.getLoot(1);
-        diver.addTrip();
+
+        lootDollars = diver.getLoot(1);
+        STATE.sandDollars += lootDollars;
+        diver.returnFromTrip();
+        addFloodLine(`${diver.name} has returned from FLOOR with ${lootDollars} Sand Dollars!`);
+
 
         diver.startDive(1500);
     }
@@ -33,10 +36,10 @@ function gameLoop() {
     renderUI();
 }
 
-const loop = setInterval(gameLoop, 100);
+const loop = setInterval(gameLoop, 10);
 
 //BUTTONS
 document.getElementById('dive-button').addEventListener('click', dive);
 document.getElementById('floorMinus').addEventListener('click', floorMinus);
 document.getElementById('floorPlus').addEventListener('click', floorPlus);
-document.getElementById('testTile').addEventListener('click', () => hireDiver("Randomname"));
+document.getElementById('testTile').addEventListener('click', hireDiver);

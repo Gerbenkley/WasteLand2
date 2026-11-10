@@ -273,3 +273,9 @@ progress {
 .split .panel {
   flex: 1 1 280px;
 }
+
+.logbox.medium {
+    height: 180px;
+    overflow-y: auto;
+    overflow-anchor: none;
+}

@@ -13,35 +13,39 @@ class Diver {
     }
 
     getLoot(dollars) {
-        console.log(`${this.name} returned with ${dollars} sand dollars.`);
         this.dollarsEarned += dollars;
         return dollars;
     }
 
-    addTrip() {
+    returnFromTrip() {
         this.totalTrips++;
     }
 }
 
-function hireDiver(name) {
+function hireDiver() {
     const cost = hireCost();
-
     if (STATE.sandDollars < cost) {
         console.log("DONT HAVE MONEEHHEHEHEHE");
         return
     }
 
+    const newName = makeRandomName();
+
     STATE.sandDollars -= cost;
     STATE.boughtDivers++;
 
     const id = STATE.boughtDivers;
-    const newDiver = new Diver(id, name);
+    const newDiver = new Diver(id, newName);
     DIVERS[id] = newDiver;
-    console.log(`${newDiver.name} has joined your Diving team!`)
+    addFloodLine(`${newDiver.name} has joined your Diving team!`)
 
     newDiver.startDive(1500);
 }
 
 function hireCost() {
     return Math.floor(BALANCE.hireBaseCost * BALANCE.hireGrowth ** STATE.boughtDivers);
+}
+
+function makeRandomName() {
+    return randInt(0, 61601061).toString();
 }
