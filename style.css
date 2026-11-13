@@ -207,10 +207,11 @@ button, .tab {
   margin-top: 4px;
 }
 
+/* min-width, so a longer price (1,250 or 3.4K) widens the tile instead of spilling out */
 .tile {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
-  padding: 4px;
+  padding: 4px 6px;
   font-size: 13px;
   display: flex;
   flex-direction: column;
@@ -220,6 +221,12 @@ button, .tab {
   &.owned {
     color: var(--green);
     border-color: var(--green);
+  }
+
+  /* Locked looks disabled, but still shows its hover box */
+  &.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }
 
@@ -243,24 +250,65 @@ button, .tab {
 
 /* ---------- Divers ---------- */
 
-/* The Hire button: the price always has its own line, so the button
-   keeps the same size whether it says 50 or 125.56M */
-.hire {
+/* Buttons with a price (Hire): the price always has its own line,
+   so the button keeps the same size whether it says 50 or 125.56M */
+.withPrice {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 
   .price {
-    font-size: 16px;
+    font-size: 14px;
     white-space: nowrap;
   }
 }
 
-.riskDial {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+/* ---------- The hover box (follows the mouse) ---------- */
+.tooltip {
+  position: fixed;
+  z-index: 10;              /* above everything, even the diver card */
+  pointer-events: none;     /* the mouse goes "through" it, so it never gets in the way */
+  max-width: 260px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 14px;
+
+  .tipName  { font-weight: bold; }
+  .tipText  { color: var(--muted); margin-top: 2px; white-space: pre-line; }   /* pre-line: \n starts a new line */
+  .tipPrice { color: var(--yellow); margin-top: 4px; }
+
+  .tipText:empty, .tipPrice:empty { display: none; }
+}
+
+/* ---------- The diver card (floats over the page) ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;                         /* cover the whole window */
+  background: rgb(0 0 0 / 0.6);     /* dim the page behind it */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gap);
+}
+
+.card {
+  width: min(600px, 100%);   /* wide enough for most status and story lines on one line */
+  background: var(--bg);
+
+  .cardStats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px var(--gap);
+    margin: 12px 0;
+  }
+
+  /* Fixed heights, so the card never jumps while it's open */
+  .cardLog {
+    height: 200px;
+  }
 }
 
 /* ---------- Logs ---------- */

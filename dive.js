@@ -2,7 +2,7 @@ import { STATE, BALANCE } from './data.js';
 import {
     addTypedLine, clearLog, getCurrentZone, logbox, formatNumber,
     survivalChance, captainPower, lootValue, randBetween, levelFromXP,
-    addSandDollars, spendSandDollars, updateSandRate
+    addSandDollars, spendSandDollars, updateSandRate, strengthBonus, intelligenceBonus
 } from './functions.js';
 
 //ADD CHOICE TO BOX
@@ -19,6 +19,7 @@ function addChoice(container, text, callback) {
     });
 
     container.appendChild(choice);
+    return choice;   // so the caller can add more to it, like a hover box
 }
 
 //CHOOSE AMOUNT OF RANDOM LOCATIONS
@@ -44,27 +45,26 @@ export async function pickLocation() {
     const zone = getCurrentZone();
     const locations = pickRandomLocations(3);
 
-    await addTypedLine(logbox, "Which path do you want to take?", 15);
+    await addTypedLine(logbox, "[bold]Which path do you want to take?[/bold]", 15);
 
     return new Promise(resolve => {
         locations.forEach(locationKey => {
-            addChoice(logbox, zone.locations[locationKey].name, () => {
+            const location = zone.locations[locationKey];
+            const choice = addChoice(logbox, location.name, () => {
                 resolve(locationKey);
             });
+
+            // The hover box: scavenge time and loot, one per line
+            const lootLines = Object.entries(location.loot).map(([loot, amount]) => `${loot} x${amount}`);
+            choice.dataset.tipName = location.name;
+            choice.dataset.tipText = `Scavenge time: ${STATE.floorSelected} seconds\n\nLoot:\n${lootLines.join("\n")}`;
         });
     });
 }
 
-//DESCRIPTION OF CHOSEN LOCATION
+//DESCRIPTION OF CHOSEN LOCATION (time and loot are in the hover box)
 async function showLocation(location) {
     await addTypedLine(logbox, location.description, 20);
-    await addTypedLine(logbox, `It takes [purple]${STATE.floorSelected} seconds[/purple] to scavenge.`, 20);
-
-    await addTypedLine(logbox, "\nLoot contains:", 20);
-
-    for (const [loot, amount] of Object.entries(location.loot)) {
-        await addTypedLine(logbox, `[blue]${loot}[/blue] x[green]${amount}[/green]`, 10);
-    }
 }
 
 //SELECT CHOSEN LOCATION
@@ -87,7 +87,7 @@ export async function selectLocation(locationKey) {
 
 //DO YOU WANT TO GO IN?
 async function confirmEntry() {
-    await addTypedLine(logbox, "\nDo you want to go in?", 20);
+    await addTypedLine(logbox, "\n[bold]Do you want to go in?[/bold]", 20);
 
     return new Promise(resolve => {
         addChoice(logbox, "Yes", () => {
@@ -109,6 +109,8 @@ async function enterLocation(locationKey) {
     const floor = STATE.floorSelected;
 
     await addTypedLine(logbox, "You go inside...", 20);
+    await addTypedLine(logbox, `Scavenging [blue]${location.name}[/blue]...`, 20);
+    await scavenge(floor);   // floor 3 = 3 seconds, like the hover box says
     await addTypedLine(logbox, "[bold red]. . .[/bold red]", 100);
 
     // Roll the survival chance shown under the Dive button
@@ -119,9 +121,37 @@ async function enterLocation(locationKey) {
 
     await collectLoot(location.loot, 5);
 
-    const dollars = Math.round(lootValue(floor) * BALANCE.captainLootMultiplier * randBetween(0.8, 1.2));
-    await collectRewards(dollars, floor ** 2);
+    const dollars = Math.round(lootValue(floor) * BALANCE.captainLootMultiplier * strengthBonus() * randBetween(0.8, 1.2));
+    const xp = Math.round(floor ** 2 * intelligenceBonus());
+    await collectRewards(dollars, xp);
     await chartFloor();
+}
+
+//SCAVENGE: a text progress bar in the log that fills up over `seconds`
+// It checks the clock (Date.now) instead of counting ticks, so it ends on time
+// even when the browser slows down a hidden tab.
+async function scavenge(seconds) {
+    const line = document.createElement('div');
+    logbox.appendChild(line);
+
+    const width = 20;   // how many blocks the bar has
+    const endsAt = Date.now() + seconds * 1000;
+
+    while (true) {
+        const msLeft = Math.max(0, endsAt - Date.now());
+        const done = 1 - msLeft / (seconds * 1000);   // 0 at the start, 1 at the end
+        const filled = Math.round(done * width);
+
+        const bar = "█".repeat(filled) + "░".repeat(width - filled);
+        const timeLeft = msLeft > 0 ? `  ${Math.ceil(msLeft / 1000)}s left` : "";
+        line.textContent = `[${bar}] ${Math.round(done * 100)}%${timeLeft}`;
+
+        if (msLeft === 0) {
+            return;
+        }
+        // Wait for the next screen frame (about 60 times a second), then redraw
+        await new Promise(resolve => requestAnimationFrame(resolve));
+    }
 }
 
 //LOST: no loot, no XP, no charting, and 10% of your sand dollars gone
@@ -140,7 +170,7 @@ async function chartFloor() {
     }
     STATE.floorRecord = STATE.floorSelected;
     updateSandRate();   // divers can now go deeper, so they earn more per trip
-    await addTypedLine(logbox, `[green]New depth charted.[/green] Your divers can now follow you down to floor ${STATE.floorRecord}.`, 15);
+    await addTypedLine(logbox, `[green]New depth charted.[/green] Your divers can now follow you down to floor [purple]${STATE.floorRecord}[/purple].`, 15);
 }
 
 //GET LOOT

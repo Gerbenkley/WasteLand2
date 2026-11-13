@@ -26,22 +26,27 @@ export const BALANCE = {
     captainBasePower: 30,
     captainPowerPerLevel: 8,
     powerPerAgility: 5,   // each Agility point above 1 adds this much
+    lootPerStrength: 0.10,    // each Strength point above 1: +10% sand dollars per captain dive
+    xpPerIntelligence: 0.10,  // each Intelligence point above 1: +10% XP per captain dive
 
     diverPower: 20,             // a diver's power, weighed against a floor's danger
     nicknameChance: 0.05,       // about 1 in 20 divers gets a nickname
+    diverLogLength: 10,         // how many story lines each diver remembers
     fallenLimit: 200,           // how many lost divers the fallen list remembers
 
     captainLootMultiplier: 2,   // the captain brings back this many times a diver's loot
     xpStepPerLevel: 500,        // each level needs 500 more XP than the step before (the Python formula)
 }
 
-// The risk dial as a lookup table: one line per setting.
-// The key matches data-risk on the buttons in index.html.
-export const RISK_DIAL = {
-    veryCareful: { label: "Very careful", survival: 0.999 },
-    careful:     { label: "Careful",      survival: 0.99 },
-    bold:        { label: "Bold",         survival: 0.95 },
-    reckless:    { label: "Reckless",     survival: 0.80 },
+// A diver's nature: rolled once at hiring, never changes.
+// chance: how common it is (all together add up to 1).
+// lean:   where they like to dive. 1 = any charted floor equally,
+//         below 1 = leans shallow, above 1 = leans deep.
+export const NATURES = {
+    careful:  { label: "Careful",  chance: 0.25, lean: 0.5 },
+    steady:   { label: "Steady",   chance: 0.45, lean: 1 },
+    bold:     { label: "Bold",     chance: 0.22, lean: 2 },
+    reckless: { label: "Reckless", chance: 0.08, lean: 4 },
 };
 
 // Every upgrade tile is built from this list.
@@ -62,6 +67,8 @@ export const UPGRADES = [
 // Diver names: a random first and last name, sometimes with a nickname.
 // Mixed origins, so the crew feels like an international expedition. Add as many as you like.
 export const FIRST_NAMES = [
+    "Lisanne", "Mathijs", "Gedion", "Cas", "Toon", "Aram", "Egbert", "Wieke", "Robert", "Jan",
+    "Ole", "Hidde", "Menno", "Bas", "Lorenzo", "Mert", "Gijs", "Lotte",
     "Mira", "Tomas", "Ines", "Kenji", "Amara", "Lars", "Priya", "Mateo", "Aiko", "Kwame",
     "Sofia", "Ruben", "Leila", "Oskar", "Yara", "Dev", "Noor", "Emil", "Zara", "Tariq",
     "Lena", "Rafael", "Hana", "Jonas", "Ama", "Bram", "Mei", "Diego", "Freya", "Kofi",
@@ -94,7 +101,6 @@ export const STATE = {
     floorRecord: 1,    // deepest floor the captain has charted: divers can go this deep
     floorBought: 1,    // deepest floor the captain's gear allows
     boughtDivers: 0,
-    riskSetting: "careful",   // a key of RISK_DIAL
     upgradesOwned: [],        // keys of UPGRADES you bought
     fallen: [],               // lost divers, newest last (see fallenLimit)
 

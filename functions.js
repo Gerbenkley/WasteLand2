@@ -1,4 +1,4 @@
-import { STATE, DIVERS, BALANCE, UPGRADES } from './data.js';
+import { STATE, DIVERS, BALANCE, UPGRADES, NATURES } from './data.js';
 import { LOCATIONS } from './locations.js';
 import { hireCost } from './diver.js';
 
@@ -20,14 +20,13 @@ export function clearLog(log) {
 }
 
 //TYPEWRITER
-function sleep(ms) {
+export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 function parseMarkup(text) {
   const parts = [];
-  const openStyles = [];     
+  const openStyles = [];
 
-  console.log(text)
   const pieces = text.split(/(\[\/?[a-z ]+\])/);
  
   for (const piece of pieces) {
@@ -46,6 +45,18 @@ function parseMarkup(text) {
   }
   return parts;
 }
+
+// The same [colour]...[/colour] markup, but all at once instead of typed.
+// For the Flood and the diver card: line.append(...markup("[red]Lost[/red] at sea"))
+export function markup(text) {
+  return parseMarkup(text).map(part => {
+    const span = document.createElement('span');
+    if (part.cls !== '') span.className = part.cls;
+    span.textContent = part.text;
+    return span;
+  });
+}
+
 async function typeLine(container, parts, delay) {
   const line = document.createElement('div');
   container.appendChild(line);
@@ -149,17 +160,34 @@ export function spendSandDollars(amount) {
     return true;
 }
 
+// The chance that a diver with this lean picks this floor (see chooseDiverFloor in diver.js)
+function floorChance(floor, lean) {
+    const deepest = STATE.floorRecord;
+    return (floor / deepest) ** lean - ((floor - 1) / deepest) ** lean;
+}
+
 // What your living divers bring in per second, on average.
-// Per trip: average loot (times the chance of coming back) over average trip time,
-// across the floors divers can choose. Call it when divers or depth change.
+// Per nature: average loot per trip (times the chance of coming back) over average trip time,
+// weighted by how likely that nature picks each floor. Call it when divers or depth change.
 export function updateSandRate() {
-    let loot = 0;
-    let seconds = 0;
-    for (let floor = 1; floor <= STATE.floorRecord; floor++) {
-        loot += survivalChance(BALANCE.diverPower, floor) * lootValue(floor);
-        seconds += tripSeconds(floor);
+    const counts = {};   // how many divers of each nature, e.g. { careful: 12, bold: 5 }
+    for (const diver of Object.values(DIVERS)) {
+        counts[diver.nature] = (counts[diver.nature] || 0) + 1;
     }
-    STATE.sandRate = (loot / seconds) * Object.keys(DIVERS).length;
+
+    let rate = 0;
+    for (const [nature, count] of Object.entries(counts)) {
+        const lean = NATURES[nature].lean;
+        let loot = 0;
+        let seconds = 0;
+        for (let floor = 1; floor <= STATE.floorRecord; floor++) {
+            const chance = floorChance(floor, lean);
+            loot += chance * survivalChance(BALANCE.diverPower, floor) * lootValue(floor);
+            seconds += chance * tripSeconds(floor);
+        }
+        rate += count * loot / seconds;
+    }
+    STATE.sandRate = rate;
 }
 
 
@@ -205,6 +233,16 @@ export function levelFromXP(totalXP) {
         level++;
     }
     return level;
+}
+
+// Strength: the captain brings back more sand dollars (1.0 = no bonus, 1.2 = +20%)
+export function strengthBonus() {
+    return 1 + BALANCE.lootPerStrength * (STATE.strength - 1);
+}
+
+// Intelligence: the captain learns more from each dive
+export function intelligenceBonus() {
+    return 1 + BALANCE.xpPerIntelligence * (STATE.intelligence - 1);
 }
 
 // The captain's power: from level, plus Agility
@@ -295,14 +333,13 @@ export function renderUI() {
 
     document.title = `Abyss - ${formatNumber(STATE.sandDollars)}`;
     document.getElementById("hireCost").textContent = formatNumber(hireCost());
-    // Risk dial: the button for the current setting is lit
-    for (const button of document.querySelectorAll('[data-action="setRisk"]')) {
-        button.classList.toggle('on', button.dataset.risk === STATE.riskSetting);
-    }
 
-    // Stat buttons: hover shows the price
+    // Stat buttons: the hover box shows the stat, what it does, and the price
     for (const button of document.querySelectorAll('[data-action="buyStat"]')) {
-        button.title = `Costs ${formatNumber(statCost(button.dataset.stat))} pearls`;
+        const stat = button.dataset.stat;
+        button.dataset.tipName = STAT_EFFECTS[stat].name;
+        button.dataset.tipText = STAT_EFFECTS[stat].text;
+        button.dataset.tipPrice = `${formatNumber(statCost(stat))} pearls`;
     }
 
     updateUpgradeTiles();
@@ -328,17 +365,23 @@ function updateUpgradeTiles() {
         const locked = STATE.floorRecord < upgrade.unlockFloor;
 
         tile.hidden = owned;      // bought upgrades leave the grid
-        tile.disabled = locked;
+        // Not "disabled": a disabled button gets no mouse events, so no hover box
+        tile.classList.toggle('locked', locked);
         tile.querySelector('.tileName').textContent = locked ? '?' : upgrade.name;
         tile.querySelector('.tileCost').textContent = locked ? 'locked' : formatNumber(upgrade.cost);
-        tile.title = locked
-            ? `Reach floor ${upgrade.unlockFloor} to unlock`
-            : `${upgrade.description}. Costs ${formatNumber(upgrade.cost)} sand dollars.`;
+
+        // What the hover box shows
+        tile.dataset.tipName = locked ? "Locked" : upgrade.name;
+        tile.dataset.tipText = locked ? `Chart floor ${upgrade.unlockFloor} to unlock.` : `${upgrade.description}.`;
+        tile.dataset.tipPrice = locked ? "" : `${formatNumber(upgrade.cost)} sand dollars`;
     }
 }
 
 export function buyUpgrade(button) {
     const upgrade = UPGRADES.find(u => u.key === button.dataset.upgrade);
+    if (button.classList.contains('locked')) {
+        return;   // locked tiles can be hovered, not bought
+    }
     if (!spendSandDollars(upgrade.cost)) {
         console.log(`Not enough sand dollars for the ${upgrade.name}.`);
         return;
@@ -353,6 +396,13 @@ export function buyUpgrade(button) {
 
 
 //STATS: bought with pearls
+
+// What each stat does, for the hover box
+const STAT_EFFECTS = {
+    strength:     { name: "Strength",     text: "+10% sand dollars from your own dives." },
+    agility:      { name: "Agility",      text: "Better chance of coming back from a dive." },
+    intelligence: { name: "Intelligence", text: "+10% XP from your own dives." },
+};
 export function statCost(stat) {
     return Math.floor(BALANCE.statBaseCost * BALANCE.statGrowth ** (STATE[stat] - 1));
 }
@@ -372,12 +422,6 @@ export function buyStat(button) {
 }
 
 
-//RISK DIAL
-export function setRisk(button) {
-    STATE.riskSetting = button.dataset.risk;
-    renderUI();
-}
-
 
 
 
@@ -393,7 +437,8 @@ const returnGroups = new Map();
 let nextGroupId = 1;
 
 // A Flood line is either plain text, or an object:
-// { before: "Mira Vance returned", group: [...], after: " with 1,208 sand dollars." }
+// { diver: {id, name}, before: " returned ", group: [...], after: " with 1,208 sand dollars.", cls: "red" }
+// diver: the line starts with that diver's clickable name. group, after and cls are optional.
 export function addFloodLine(entry) {
     if (typeof entry === "string") {
         entry = { before: entry };
@@ -413,16 +458,30 @@ export function addReturnLine(returned) {
     const first = returned[0];
 
     if (returned.length === 1) {
-        addFloodLine(`${first.name} returned from ${first.location} (floor ${first.floor}) with ${formatNumber(first.loot)} sand dollars.`);
+        addFloodLine({
+            diver: first,
+            before: ` returned from [blue]${first.location}[/blue] (floor [purple]${first.floor}[/purple]) with [yellow]${formatNumber(first.loot)} sand dollars[/yellow].`,
+        });
         return;
     }
 
     const total = returned.reduce((sum, r) => sum + r.loot, 0);
     addFloodLine({
-        before: `${first.name} returned `,
+        diver: first,
+        before: " returned ",
         group: returned,
-        after: ` with ${formatNumber(total)} sand dollars.`,
+        after: ` with [yellow]${formatNumber(total)} sand dollars[/yellow].`,
     });
+}
+
+// A diver's name as a button that opens their card (needs .id and .name)
+function nameButton(diver) {
+    const button = document.createElement("button");
+    button.className = "name";
+    button.dataset.action = "showDiver";
+    button.dataset.diver = diver.id;
+    button.textContent = diver.name;
+    return button;
 }
 
 function writeFloodLine(entry) {
@@ -435,7 +494,10 @@ function writeFloodLine(entry) {
     if (entry.cls) {
         line.className = entry.cls;   // for example "red" for a lost diver
     }
-    line.append(entry.before);
+    if (entry.diver) {
+        line.append(nameButton(entry.diver));   // the line starts with a clickable name
+    }
+    line.append(...markup(entry.before));   // ... spreads the list of coloured spans
 
     if (entry.group) {
         const id = String(nextGroupId++);
@@ -447,7 +509,7 @@ function writeFloodLine(entry) {
         button.dataset.action = "showReturnGroup";
         const others = entry.group.length - 1;
         button.textContent = `(+${others} ${others === 1 ? "diver" : "divers"})`;
-        line.append(button, entry.after);
+        line.append(button, ...markup(entry.after));
     }
 
     box.appendChild(line);
@@ -496,7 +558,7 @@ export function showReturnGroup(button) {
     list.className = "groupList";
     for (const r of returnGroups.get(line.dataset.group)) {
         const row = document.createElement("div");
-        row.textContent = `${r.name}, floor ${r.floor}, ${r.location}: +${formatNumber(r.loot)}`;
+        row.append(nameButton(r), ...markup(`, floor [purple]${r.floor}[/purple], [blue]${r.location}[/blue]: [yellow]+${formatNumber(r.loot)}[/yellow]`));
         list.appendChild(row);
     }
     line.appendChild(list);

@@ -124,15 +124,6 @@
                         <span>Hire diver</span>
                         <span class="price"><span id="hireCost">50</span></span>
                     </button>
-
-                    <span class="label">Risk dial</span>
-                    <!-- data-risk matches a key in RISK_DIAL (data.js) -->
-                    <div class="riskDial">
-                        <button data-action="setRisk" data-risk="veryCareful">Very careful</button>
-                        <button data-action="setRisk" data-risk="careful">Careful</button>
-                        <button data-action="setRisk" data-risk="bold">Bold</button>
-                        <button data-action="setRisk" data-risk="reckless">Reckless</button>
-                    </div>
                 </div>
 
                 <!-- The Shipyard panel goes here later -->
@@ -140,6 +131,27 @@
         </div>
 
         
+    </div>
+
+    <!-- The hover box: filled and moved by tooltip.js -->
+    <div class="tooltip" id="tooltip" hidden>
+        <div class="tipName"></div>
+        <div class="tipText"></div>
+        <div class="tipPrice"></div>
+    </div>
+
+    <!-- The diver card: floats over the page when you click a diver's name -->
+    <div class="overlay" id="diverCard" hidden>
+        <div class="panel card">
+            <div class="row">
+                <h2 id="cardName">Diver</h2>
+                <button class="stat-button" data-action="closeCard" aria-label="Close">&times;</button>
+            </div>
+            <p id="cardStatus" class="muted"></p>
+            <div class="cardStats" id="cardStats"></div>
+            <span class="label">Story</span>
+            <div class="logbox cardLog" id="cardLog"></div>
+        </div>
     </div>
 
     <!-- One entry point. game.js imports everything else it needs. -->

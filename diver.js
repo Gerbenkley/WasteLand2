@@ -1,7 +1,7 @@
-import { STATE, DIVERS, BALANCE, FIRST_NAMES, LAST_NAMES, NICKNAMES } from './data.js';
+import { STATE, DIVERS, BALANCE, NATURES, FIRST_NAMES, LAST_NAMES, NICKNAMES } from './data.js';
 import {
     randInt, randBetween, addFloodLine, tripSeconds, lootValue, randomLocationOnFloor,
-    spendSandDollars, updateSandRate
+    spendSandDollars, updateSandRate, formatNumber
 } from './functions.js';
 
 export class Diver {
@@ -14,6 +14,16 @@ export class Diver {
         this.deepestFloor = 0;
         this.dollarsEarned = 0;
         this.totalTrips = 0;
+        this.log = [];              // this diver's own story, newest last
+        this.nature = rollNature(); // a key of NATURES: careful, steady, bold or reckless
+    }
+
+    // Add a line to this diver's story; only the last few are kept
+    addLog(text) {
+        this.log.push(text);
+        if (this.log.length > BALANCE.diverLogLength) {
+            this.log.shift();
+        }
     }
 
     // Go to a floor: pick a location there, and work out when you're back
@@ -32,16 +42,36 @@ export class Diver {
         return dollars;
     }
 
-    returnFromTrip() {
+    returnFromTrip(dollars) {
         this.totalTrips++;
-        this.deepestFloor = Math.max(this.deepestFloor, this.floor);
+        this.addLog(`Floor [purple]${this.floor}[/purple], [blue]${this.location}[/blue]: [yellow]+${formatNumber(dollars)} sand dollars[/yellow].`);
+
+        if (this.floor > this.deepestFloor) {
+            this.deepestFloor = this.floor;
+            this.addLog(`[green]New personal depth:[/green] floor [purple]${this.floor}[/purple].`);
+        }
     }
 }
 
-// Which floor a diver goes to next. For now: any floor the captain has reached.
-// In step 7, the risk dial takes over this choice.
-export function chooseDiverFloor() {
-    return randInt(1, STATE.floorRecord);
+// Which floor a diver goes to next: any charted floor, leaning by their nature.
+// Math.random() gives 0 to 1. Raising it to the power 1/lean pushes it
+// towards 1 (deep) when lean is above 1, and towards 0 (shallow) when below 1.
+export function chooseDiverFloor(diver) {
+    const lean = NATURES[diver.nature].lean;
+    const depth = Math.random() ** (1 / lean);
+    return Math.min(STATE.floorRecord, 1 + Math.floor(depth * STATE.floorRecord));
+}
+
+// Pick a nature, using each one's chance
+function rollNature() {
+    let roll = Math.random();
+    for (const [key, nature] of Object.entries(NATURES)) {
+        roll -= nature.chance;
+        if (roll < 0) {
+            return key;
+        }
+    }
+    return "steady";   // only if the chances add up to less than 1
 }
 
 export function hireDiver() {
@@ -56,9 +86,10 @@ export function hireDiver() {
     const id = STATE.boughtDivers;
     const newDiver = new Diver(id, newName);
     DIVERS[id] = newDiver;
-    addFloodLine(`${newDiver.name} has joined your Diving team!`);
+    newDiver.addLog("[green]Joined the expedition.[/green]");
+    addFloodLine({ diver: newDiver, before: " [green]has joined your Diving team![/green]" });
 
-    newDiver.startDive(chooseDiverFloor());
+    newDiver.startDive(chooseDiverFloor(newDiver));
     updateSandRate();
 }
 
@@ -71,20 +102,25 @@ export function hireCost() {
 // A lost diver leaves the team, and goes on the fallen list
 export function loseDiver(diver) {
     delete DIVERS[diver.id];
+    diver.addLog(`[red]Lost[/red] at [blue]${diver.location}[/blue] (floor [purple]${diver.floor}[/purple]).`);
 
+    // Same field names as a living diver, so the card can show either
     STATE.fallen.push({
         id: diver.id,
         name: diver.name,
         floor: diver.floor,
         location: diver.location,
-        trips: diver.totalTrips,
-        earned: diver.dollarsEarned,
+        totalTrips: diver.totalTrips,
+        dollarsEarned: diver.dollarsEarned,
+        deepestFloor: diver.deepestFloor,
+        nature: diver.nature,
+        log: diver.log,
     });
     if (STATE.fallen.length > BALANCE.fallenLimit) {
         STATE.fallen.shift();   // forget the oldest
     }
 
-    addFloodLine({ before: `${diver.name} was lost at ${diver.location} (floor ${diver.floor}).`, cls: "red" });
+    addFloodLine({ diver: diver, before: ` was lost at ${diver.location} (floor ${diver.floor}).`, cls: "red" });
     updateSandRate();
 }
 

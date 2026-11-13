@@ -8,73 +8,73 @@ export const LOCATIONS = {
         locations: {
             sunken_ferry: {
                 name: "Sunken Ferry",
-                description: "An old passenger ferry rests on the sandy seabed. Its cabins are filled with debris and forgotten belongings.",
+                description: "An old passenger ferry rests on the sandy seabed. Its cabins are filled with debris and [yellow]forgotten belongings[/yellow].",
                 unlockFloor: 1,
                 loot: { Scrap: 10, Pearls: 3, ResearchData: 1, Artifacts: 0.5 }
             },
             coral_garden: {
                 name: "Coral Garden",
-                description: "A colourful coral reef stretches across the seabed. Small creatures hide between the coral formations.",
+                description: "A colourful coral reef stretches across the seabed. [green]Small creatures[/green] hide between the coral formations.",
                 unlockFloor: 1,
                 loot: { Scrap: 2, Pearls: 10, ResearchData: 1, Artifacts: 0.5 }
             },
             fishing_trawler: {
                 name: "Fishing Trawler",
-                description: "A fishing vessel lies on its side. Its nets, equipment and storage compartments are still scattered around the wreck.",
+                description: "A fishing vessel lies on its side. Its nets, [yellow]equipment[/yellow] and storage compartments are still scattered around the wreck.",
                 unlockFloor: 1,
                 loot: { Scrap: 12, Pearls: 2, ResearchData: 0.5, Artifacts: 1 }
             },
             sea_caves: {
                 name: "Sea Caves",
-                description: "A network of shallow caves cuts through the rocky seabed. Something glimmers in the darkness inside.",
+                description: "A network of shallow caves cuts through the rocky seabed. Something [blue]glimmers[/blue] in the [red]darkness[/red] inside.",
                 unlockFloor: 2,
                 loot: { Scrap: 3, Pearls: 8, ResearchData: 1, Artifacts: 2 }
             },
             diving_platform: {
                 name: "Abandoned Diving Platform",
-                description: "An old diving platform has been left to rust. Equipment and supply crates remain scattered across its structure.",
+                description: "An old diving platform has been left to rust. [yellow]Equipment and supply crates[/yellow] remain scattered across its structure.",
                 unlockFloor: 2,
                 loot: { Scrap: 10, Pearls: 1, ResearchData: 3, Artifacts: 1 }
             },
             kelp_forest: {
                 name: "Kelp Forest",
-                description: "Tall strands of kelp sway in the current, creating a dense underwater forest filled with marine life.",
+                description: "Tall strands of kelp sway in the current, creating a dense underwater forest filled with [green]marine life[/green].",
                 unlockFloor: 3,
                 loot: { Scrap: 3, Pearls: 7, ResearchData: 1.5, Artifacts: 1 }
             },
             speedboat_wreck: {
                 name: "Sunken Speedboat",
-                description: "A small speedboat rests beneath the waves. Its hull is damaged, but some valuable equipment remains intact.",
+                description: "A small speedboat rests beneath the waves. Its hull is [red]damaged[/red], but some [yellow]valuable equipment[/yellow] remains intact.",
                 unlockFloor: 3,
                 loot: { Scrap: 9, Pearls: 2, ResearchData: 1, Artifacts: 2 }
             },
             coastal_lighthouse: {
                 name: "Coastal Lighthouse",
-                description: "The base of an old lighthouse has collapsed into the sea. Its foundations are surrounded by broken masonry and metal.",
+                description: "The base of an old lighthouse has [red]collapsed[/red] into the sea. Its foundations are surrounded by broken masonry and [yellow]metal[/yellow].",
                 unlockFloor: 4,
                 loot: { Scrap: 7, Pearls: 2, ResearchData: 3, Artifacts: 3 }
             },
             cargo_container: {
                 name: "Lost Cargo Container",
-                description: "A shipping container lies half-buried in the sand. Its doors have been forced open, revealing the remains of its cargo.",
+                description: "A shipping container lies half-buried in the sand. Its doors have been forced open, revealing the remains of its [yellow]cargo[/yellow].",
                 unlockFloor: 4,
                 loot: { Scrap: 14, Pearls: 1, ResearchData: 1, Artifacts: 2 }
             },
             research_buoy: {
                 name: "Research Buoy",
-                description: "An oceanographic research buoy has broken loose from its anchor. Its sensors and data storage may still be functional.",
+                description: "An oceanographic research buoy has broken loose from its anchor. Its [yellow]sensors and data storage[/yellow] may still be functional.",
                 unlockFloor: 5,
                 loot: { Scrap: 3, Pearls: 1, ResearchData: 10, Artifacts: 1 }
             },
             submerged_village: {
                 name: "Submerged Village",
-                description: "The remains of a coastal village lie beneath the water. Houses, streets and old possessions have been swallowed by the sea.",
+                description: "The remains of a coastal village lie beneath the water. Houses, streets and [yellow]old possessions[/yellow] have been [red]swallowed by the sea[/red].",
                 unlockFloor: 5,
                 loot: { Scrap: 8, Pearls: 4, ResearchData: 2, Artifacts: 4 }
             },
             blue_hole: {
                 name: "Blue Hole",
-                description: "A deep circular sinkhole cuts into the seabed. Its walls descend sharply into the blue darkness below.",
+                description: "A deep circular sinkhole cuts into the seabed. Its walls descend sharply into the blue [red]darkness[/red] below.",
                 unlockFloor: 6,
                 loot: { Scrap: 1, Pearls: 9, ResearchData: 2, Artifacts: 3 }
             }
@@ -90,73 +90,73 @@ export const LOCATIONS = {
         locations: {
             research_station: {
                 name: "Abandoned Research Station",
-                description: "A deep-sea research station hangs above the seabed. Its windows are cracked and its equipment has been left running.",
+                description: "A deep-sea research station hangs above the seabed. Its windows are [red]cracked[/red] and its [yellow]equipment[/yellow] has been left running.",
                 unlockFloor: 7,
                 loot: { Scrap: 8, Pearls: 2, ResearchData: 8, Artifacts: 2 }
             },
             ship_graveyard: {
                 name: "Ship Graveyard",
-                description: "The remains of several ships are scattered across the ocean floor. Their rusted hulls form a maze of wreckage.",
+                description: "The remains of several ships are scattered across the ocean floor. Their rusted hulls form a [red]maze of wreckage[/red].",
                 unlockFloor: 7,
                 loot: { Scrap: 12, Pearls: 3, ResearchData: 3, Artifacts: 4 }
             },
             ghost_nets: {
                 name: "Ghost Net Field",
-                description: "Abandoned fishing nets drift through the water, tangled around rocks and the remains of old equipment.",
+                description: "Abandoned fishing nets drift through the water, [red]tangled[/red] around rocks and the remains of [yellow]old equipment[/yellow].",
                 unlockFloor: 7,
                 loot: { Scrap: 9, Pearls: 2, ResearchData: 2, Artifacts: 1 }
             },
             submarine_wreck: {
                 name: "Submarine Wreck",
-                description: "A military submarine rests on the slope of an underwater canyon. Its outer hull has been torn open.",
+                description: "A military submarine rests on the slope of an underwater canyon. Its outer hull has been [red]torn open[/red].",
                 unlockFloor: 8,
                 loot: { Scrap: 10, Pearls: 1, ResearchData: 6, Artifacts: 4 }
             },
             whale_fall: {
                 name: "Whale Fall",
-                description: "The enormous skeleton of a whale lies on the seabed, attracting scavengers and strange deep-sea creatures.",
+                description: "The enormous skeleton of a whale lies on the seabed, attracting [green]scavengers[/green] and [purple]strange deep-sea creatures[/purple].",
                 unlockFloor: 8,
                 loot: { Scrap: 1, Pearls: 8, ResearchData: 4, Artifacts: 3 }
             },
             canyon_relay: {
                 name: "Canyon Relay Station",
-                description: "An automated communications station stands on the edge of a canyon. Its signal continues to pulse through the water.",
+                description: "An automated communications station stands on the edge of a canyon. Its [blue]signal[/blue] continues to pulse through the water.",
                 unlockFloor: 9,
                 loot: { Scrap: 3, Pearls: 1, ResearchData: 10, Artifacts: 3 }
             },
             oil_rig_remains: {
                 name: "Oil Rig Remains",
-                description: "The collapsed structure of an offshore oil rig lies deep beneath the surface. Heavy machinery is scattered across the seabed.",
+                description: "The [red]collapsed[/red] structure of an offshore oil rig lies deep beneath the surface. [yellow]Heavy machinery[/yellow] is scattered across the seabed.",
                 unlockFloor: 9,
                 loot: { Scrap: 11, Pearls: 1, ResearchData: 6, Artifacts: 3 }
             },
             bioluminescent_grove: {
                 name: "Bioluminescent Grove",
-                description: "Strange organisms illuminate the darkness with a faint blue glow. Their light reveals a forest of unusual deep-sea growth.",
+                description: "[purple]Strange organisms[/purple] illuminate the darkness with a [blue]faint blue glow[/blue]. Their light reveals a forest of unusual deep-sea growth.",
                 unlockFloor: 10,
                 loot: { Scrap: 2, Pearls: 6, ResearchData: 4, Artifacts: 3 }
             },
             lost_expedition: {
                 name: "Lost Expedition",
-                description: "A research team's abandoned camp lies on a rocky ledge. Their equipment and personal logs remain scattered around.",
+                description: "A research team's abandoned camp lies on a rocky ledge. Their [yellow]equipment and personal logs[/yellow] remain scattered around.",
                 unlockFloor: 10,
                 loot: { Scrap: 4, Pearls: 3, ResearchData: 8, Artifacts: 5 }
             },
             underwater_archive: {
                 name: "Underwater Museum",
-                description: "A collection of historical objects has been preserved inside a sealed underwater exhibition hall.",
+                description: "A collection of [yellow]historical objects[/yellow] has been preserved inside a sealed underwater exhibition hall.",
                 unlockFloor: 11,
                 loot: { Scrap: 5, Pearls: 2, ResearchData: 10, Artifacts: 7 }
             },
             volcanic_ridge: {
                 name: "Volcanic Ridge",
-                description: "A long volcanic ridge cuts through the seabed. Small cracks release clouds of warm mineral-rich water.",
+                description: "A long volcanic ridge cuts through the seabed. Small cracks release clouds of warm [yellow]mineral-rich[/yellow] water.",
                 unlockFloor: 11,
                 loot: { Scrap: 5, Pearls: 3, ResearchData: 6, Artifacts: 4 }
             },
             the_dropoff: {
                 name: "The Drop-off",
-                description: "The seabed suddenly ends at a massive underwater cliff. Beyond its edge, the ocean disappears into darkness.",
+                description: "The seabed suddenly ends at a massive underwater cliff. Beyond its edge, the ocean disappears into [red]darkness[/red].",
                 unlockFloor: 12,
                 loot: { Scrap: 1, Pearls: 2, ResearchData: 8, Artifacts: 5 }
             }
@@ -172,73 +172,73 @@ export const LOCATIONS = {
         locations: {
             blackwater_lab: {
                 name: "Blackwater Laboratory",
-                description: "A sealed laboratory floats in complete darkness. Its research equipment appears to have been abandoned in a hurry.",
+                description: "A sealed laboratory floats in [red]complete darkness[/red]. Its research equipment appears to have been [purple]abandoned in a hurry[/purple].",
                 unlockFloor: 13,
                 loot: { Scrap: 4, Pearls: 1, ResearchData: 10, Artifacts: 5 }
             },
             ghost_fleet: {
                 name: "Ghost Fleet",
-                description: "Several enormous shipwrecks lie motionless in the darkness. Their cargo holds may still contain valuable remains.",
+                description: "Several enormous shipwrecks lie motionless in the [red]darkness[/red]. Their cargo holds may still contain [yellow]valuable remains[/yellow].",
                 unlockFloor: 13,
                 loot: { Scrap: 10, Pearls: 2, ResearchData: 5, Artifacts: 6 }
             },
             glass_sponge_forest: {
                 name: "Glass Sponge Forest",
-                description: "Delicate glass sponges cover the seabed, forming an intricate forest of transparent structures.",
+                description: "Delicate [green]glass sponges[/green] cover the seabed, forming an intricate forest of transparent structures.",
                 unlockFloor: 13,
                 loot: { Scrap: 2, Pearls: 6, ResearchData: 5, Artifacts: 4 }
             },
             deep_submersible: {
                 name: "Crashed Submersible",
-                description: "A research submersible has crashed against a rocky outcrop. Its reinforced cabin is partly buried in sediment.",
+                description: "A research submersible has [red]crashed[/red] against a rocky outcrop. Its reinforced cabin is partly buried in sediment.",
                 unlockFloor: 14,
                 loot: { Scrap: 6, Pearls: 1, ResearchData: 7, Artifacts: 5 }
             },
             pressure_dome: {
                 name: "Pressure Dome",
-                description: "A strange spherical structure stands alone on the seabed. Its thick glass windows have somehow survived the pressure.",
+                description: "A [purple]strange spherical structure[/purple] stands alone on the seabed. Its thick glass windows have somehow survived the pressure.",
                 unlockFloor: 14,
                 loot: { Scrap: 8, Pearls: 1, ResearchData: 9, Artifacts: 6 }
             },
             bone_garden: {
                 name: "Bone Garden",
-                description: "An unusual field of enormous bones stretches across the seabed. Some appear far too large to belong to any known animal.",
+                description: "An unusual field of enormous bones stretches across the seabed. Some appear [purple]far too large to belong to any known animal[/purple].",
                 unlockFloor: 15,
                 loot: { Scrap: 1, Pearls: 4, ResearchData: 6, Artifacts: 7 }
             },
             signal_beacon: {
                 name: "Signal Beacon",
-                description: "A mysterious beacon emits a repeating signal from the ocean floor. Its origin and purpose are unknown.",
+                description: "A [purple]mysterious beacon[/purple] emits a [blue]repeating signal[/blue] from the ocean floor. Its origin and purpose are unknown.",
                 unlockFloor: 15,
                 loot: { Scrap: 3, Pearls: 1, ResearchData: 10, Artifacts: 5 }
             },
             abyssal_canyon: {
                 name: "Abyssal Canyon",
-                description: "A narrow canyon winds between towering rock walls. Strange lights can occasionally be seen far below.",
+                description: "A narrow canyon winds between towering rock walls. [blue]Strange lights[/blue] can occasionally be seen far below.",
                 unlockFloor: 16,
                 loot: { Scrap: 2, Pearls: 2, ResearchData: 7, Artifacts: 6 }
             },
             frozen_seamount: {
                 name: "Frozen Seamount",
-                description: "A submerged mountain rises from the dark seabed. Its peaks are covered in unusual mineral deposits.",
+                description: "A submerged mountain rises from the dark seabed. Its peaks are covered in [yellow]unusual mineral deposits[/yellow].",
                 unlockFloor: 16,
                 loot: { Scrap: 3, Pearls: 3, ResearchData: 6, Artifacts: 5 }
             },
             leviathan_skeleton: {
                 name: "Leviathan Skeleton",
-                description: "The enormous remains of an unknown sea creature lie across the ocean floor. Its skull alone is larger than a submarine.",
+                description: "The enormous remains of an [purple]unknown sea creature[/purple] lie across the ocean floor. Its skull alone is larger than a submarine.",
                 unlockFloor: 17,
                 loot: { Scrap: 1, Pearls: 5, ResearchData: 4, Artifacts: 10 }
             },
             buried_research_ark: {
                 name: "Buried Research Ark",
-                description: "A massive research vessel has partially disappeared beneath layers of sediment. Its central archive may still be intact.",
+                description: "A massive research vessel has partially disappeared beneath layers of sediment. Its [yellow]central archive[/yellow] may still be intact.",
                 unlockFloor: 17,
                 loot: { Scrap: 5, Pearls: 1, ResearchData: 10, Artifacts: 8 }
             },
             silent_station: {
                 name: "The Silent Station",
-                description: "A large underwater facility stands completely dark. No signals or signs of activity have been detected.",
+                description: "A large underwater facility stands [red]completely dark[/red]. No signals or signs of activity have been detected.",
                 unlockFloor: 18,
                 loot: { Scrap: 4, Pearls: 2, ResearchData: 8, Artifacts: 9 }
             }
@@ -254,73 +254,73 @@ export const LOCATIONS = {
         locations: {
             endless_plain: {
                 name: "The Endless Plain",
-                description: "A seemingly endless stretch of flat seabed is covered in fine sediment. Scattered objects hint at things long forgotten.",
+                description: "A seemingly endless stretch of flat seabed is covered in fine sediment. [yellow]Scattered objects[/yellow] hint at [purple]things long forgotten[/purple].",
                 unlockFloor: 19,
                 loot: { Scrap: 3, Pearls: 2, ResearchData: 6, Artifacts: 5 }
             },
             vent_field: {
                 name: "Hydrothermal Vent Field",
-                description: "Mineral-rich water rises from cracks in the seabed. Strange organisms gather around the warm vents.",
+                description: "Mineral-rich water rises from cracks in the seabed. [purple]Strange organisms[/purple] gather around the warm vents.",
                 unlockFloor: 19,
                 loot: { Scrap: 2, Pearls: 3, ResearchData: 8, Artifacts: 6 }
             },
             nodule_fields: {
                 name: "Manganese Nodule Fields",
-                description: "Thousands of dark mineral nodules cover the ocean floor. Some contain unusual metallic deposits.",
+                description: "Thousands of dark mineral nodules cover the ocean floor. Some contain [yellow]unusual metallic deposits[/yellow].",
                 unlockFloor: 19,
                 loot: { Scrap: 8, Pearls: 1, ResearchData: 5, Artifacts: 5 }
             },
             collapsed_habitat: {
                 name: "Collapsed Habitat",
-                description: "The remains of an underwater settlement lie crushed beneath the pressure. Its reinforced walls are barely recognizable.",
+                description: "The remains of an underwater settlement lie [red]crushed beneath the pressure[/red]. Its reinforced walls are barely recognizable.",
                 unlockFloor: 20,
                 loot: { Scrap: 9, Pearls: 1, ResearchData: 7, Artifacts: 7 }
             },
             basalt_cathedral: {
                 name: "Basalt Cathedral",
-                description: "Tall volcanic rock formations rise like pillars around a vast cavern. Their shapes resemble the ruins of a cathedral.",
+                description: "Tall volcanic rock formations rise like pillars around a vast cavern. Their shapes resemble the [purple]ruins of a cathedral[/purple].",
                 unlockFloor: 20,
                 loot: { Scrap: 1, Pearls: 3, ResearchData: 5, Artifacts: 8 }
             },
             drowned_archive: {
                 name: "Drowned Archive",
-                description: "An ancient archive lies sealed inside a reinforced structure. Strange symbols cover its walls and surviving data terminals.",
+                description: "An ancient archive lies sealed inside a reinforced structure. [purple]Strange symbols[/purple] cover its walls and surviving [yellow]data terminals[/yellow].",
                 unlockFloor: 21,
                 loot: { Scrap: 3, Pearls: 1, ResearchData: 10, Artifacts: 10 }
             },
             chimney_colony: {
                 name: "Chimney Colony",
-                description: "A field of towering hydrothermal chimneys rises from the seabed. Their dark mineral structures are covered in unusual life.",
+                description: "A field of towering hydrothermal chimneys rises from the seabed. Their dark mineral structures are covered in [green]unusual life[/green].",
                 unlockFloor: 21,
                 loot: { Scrap: 2, Pearls: 2, ResearchData: 8, Artifacts: 7 }
             },
             clam_graveyard: {
                 name: "Giant Clam Graveyard",
-                description: "Enormous empty shells are scattered across the seabed. Their interiors contain traces of rare mineral formations.",
+                description: "Enormous empty shells are scattered across the seabed. Their interiors contain traces of [yellow]rare mineral formations[/yellow].",
                 unlockFloor: 22,
                 loot: { Scrap: 1, Pearls: 9, ResearchData: 4, Artifacts: 6 }
             },
             crushed_carrier: {
                 name: "Crushed Carrier",
-                description: "A huge cargo ship has been flattened against the ocean floor. Its containers have burst open under the immense pressure.",
+                description: "A huge cargo ship has been flattened against the ocean floor. Its [yellow]containers[/yellow] have burst open under the [red]immense pressure[/red].",
                 unlockFloor: 22,
                 loot: { Scrap: 12, Pearls: 1, ResearchData: 4, Artifacts: 7 }
             },
             mineral_spires: {
                 name: "Mineral Spires",
-                description: "Sharp mineral formations grow from the seabed in towering clusters. Their surfaces shimmer under your lights.",
+                description: "Sharp mineral formations grow from the seabed in towering clusters. Their surfaces [blue]shimmer[/blue] under your lights.",
                 unlockFloor: 23,
                 loot: { Scrap: 2, Pearls: 4, ResearchData: 7, Artifacts: 8 }
             },
             ancient_machine: {
                 name: "Ancient Machine",
-                description: "A gigantic mechanical structure lies embedded in the seabed. Its purpose is impossible to determine.",
+                description: "A gigantic mechanical structure lies embedded in the seabed. Its purpose is [purple]impossible to determine[/purple].",
                 unlockFloor: 23,
                 loot: { Scrap: 6, Pearls: 1, ResearchData: 10, Artifacts: 12 }
             },
             silent_crater: {
                 name: "The Silent Crater",
-                description: "A circular crater descends deep into the ocean floor. Its centre is covered by an unfamiliar black material.",
+                description: "A circular crater descends deep into the ocean floor. Its centre is covered by an [purple]unfamiliar black material[/purple].",
                 unlockFloor: 24,
                 loot: { Scrap: 2, Pearls: 2, ResearchData: 9, Artifacts: 10 }
             }
@@ -336,73 +336,73 @@ export const LOCATIONS = {
         locations: {
             trench_entrance: {
                 name: "Trench Entrance",
-                description: "A colossal trench opens beneath you. Its steep walls descend into a darkness that your lights cannot penetrate.",
+                description: "A colossal trench opens beneath you. Its steep walls descend into a [red]darkness[/red] that your lights cannot penetrate.",
                 unlockFloor: 25,
                 loot: { Scrap: 2, Pearls: 2, ResearchData: 7, Artifacts: 8 }
             },
             slumped_wall: {
                 name: "The Slumped Wall",
-                description: "A section of the trench wall has collapsed, exposing layers of ancient rock and objects buried deep within.",
+                description: "A section of the trench wall has [red]collapsed[/red], exposing layers of ancient rock and [yellow]objects buried deep within[/yellow].",
                 unlockFloor: 25,
                 loot: { Scrap: 5, Pearls: 2, ResearchData: 6, Artifacts: 9 }
             },
             expedition_pod: {
                 name: "Hadal Expedition Pod",
-                description: "An unmanned expedition pod rests on the trench floor. Its outer shell is heavily damaged, but its data recorder remains intact.",
+                description: "An unmanned expedition pod rests on the trench floor. Its outer shell is [red]heavily damaged[/red], but its [yellow]data recorder[/yellow] remains intact.",
                 unlockFloor: 25,
                 loot: { Scrap: 5, Pearls: 1, ResearchData: 11, Artifacts: 8 }
             },
             brine_lake: {
                 name: "Brine Lake",
-                description: "A pool of extremely dense, salty water lies in a depression on the seabed. Its surface looks almost like a separate ocean.",
+                description: "A pool of extremely dense, salty water lies in a depression on the seabed. Its surface looks almost like a [purple]separate ocean[/purple].",
                 unlockFloor: 26,
                 loot: { Scrap: 1, Pearls: 5, ResearchData: 8, Artifacts: 8 }
             },
             bone_trench: {
                 name: "Bone Trench",
-                description: "An enormous collection of bones fills a narrow section of the trench. Some remains show signs of unknown markings.",
+                description: "An enormous collection of bones fills a narrow section of the trench. Some remains show signs of [purple]unknown markings[/purple].",
                 unlockFloor: 26,
                 loot: { Scrap: 1, Pearls: 4, ResearchData: 7, Artifacts: 12 }
             },
             pressure_vault: {
                 name: "Pressure-Locked Vault",
-                description: "A reinforced vault is embedded in the trench wall. Its sealed entrance appears designed to withstand unimaginable pressure.",
+                description: "A [yellow]reinforced vault[/yellow] is embedded in the trench wall. Its sealed entrance appears designed to withstand [red]unimaginable pressure[/red].",
                 unlockFloor: 27,
                 loot: { Scrap: 4, Pearls: 2, ResearchData: 10, Artifacts: 12 }
             },
             hadal_nest: {
                 name: "Primordial Nest",
-                description: "A strange nest-like structure lies hidden between enormous rocks. Its contents suggest that something still lives here.",
+                description: "A strange nest-like structure lies hidden between enormous rocks. Its contents suggest that [red]something still lives here[/red].",
                 unlockFloor: 27,
                 loot: { Scrap: 1, Pearls: 5, ResearchData: 8, Artifacts: 12 }
             },
             buried_temple: {
                 name: "The Buried Temple",
-                description: "An ancient structure emerges from the sediment. Its walls are covered in symbols that do not match any known civilization.",
+                description: "An ancient structure emerges from the sediment. Its walls are covered in symbols that [purple]do not match any known civilization[/purple].",
                 unlockFloor: 28,
                 loot: { Scrap: 2, Pearls: 3, ResearchData: 10, Artifacts: 15 }
             },
             black_chimney: {
                 name: "The Black Chimney",
-                description: "A massive black chimney rises from the trench floor. Its surface pulses with an unexplained faint glow.",
+                description: "A massive black chimney rises from the trench floor. Its surface pulses with an [blue]unexplained faint glow[/blue].",
                 unlockFloor: 28,
                 loot: { Scrap: 1, Pearls: 3, ResearchData: 9, Artifacts: 12 }
             },
             submerged_observatory: {
                 name: "Submerged Observatory",
-                description: "A sealed observatory is buried deep within the trench. Its instruments appear to have been monitoring something below.",
+                description: "A sealed observatory is buried deep within the trench. Its instruments appear to have been [purple]monitoring something below[/purple].",
                 unlockFloor: 29,
                 loot: { Scrap: 3, Pearls: 1, ResearchData: 14, Artifacts: 12 }
             },
             last_camp: {
                 name: "The Last Camp",
-                description: "The remains of an expedition camp mark the deepest known human landing site. A final log entry is still waiting to be recovered.",
+                description: "The remains of an expedition camp mark the deepest known human landing site. A [yellow]final log entry[/yellow] is still waiting to be recovered.",
                 unlockFloor: 29,
                 loot: { Scrap: 3, Pearls: 2, ResearchData: 12, Artifacts: 14 }
             },
             abyssal_core: {
                 name: "The Abyssal Core",
-                description: "At the bottom of the trench lies a vast, unidentified structure. A faint signal emanates from somewhere inside.",
+                description: "At the bottom of the trench lies a vast, [purple]unidentified structure[/purple]. A [blue]faint signal[/blue] emanates from somewhere inside.",
                 unlockFloor: 30,
                 loot: { Scrap: 2, Pearls: 3, ResearchData: 15, Artifacts: 20 }
             }

@@ -1,9 +1,11 @@
 import { STATE, DIVERS, BALANCE } from './data.js';
 import {
     initialize, renderUI, clearLog, addTypedLine, disableButtons, enableButtons,
-    floorMinus, floorPlus, addReturnLine, showReturnGroup, buyUpgrade, buyStat, setRisk, survivalChance, addSandDollars, logbox
+    floorMinus, floorPlus, addReturnLine, showReturnGroup, buyUpgrade, buyStat, survivalChance, addSandDollars, logbox
 } from './functions.js';
 import { hireDiver, chooseDiverFloor, loseDiver } from './diver.js';
+import { showDiver, closeCard, updateDiverCard } from './card.js';
+import { refreshTooltip } from './tooltip.js';
 import { pickLocation, selectLocation } from './dive.js';
 
 // For testing in the browser console: modules hide their variables,
@@ -18,7 +20,7 @@ initialize();
 async function dive() {
     clearLog(logbox);
     disableButtons();
-    await addTypedLine(logbox, "You prepare for your dive...", 35);
+    await addTypedLine(logbox, `You prepare for your dive to floor [purple]${STATE.floorSelected}[/purple]...`, 35);
 
     const locationKey = await pickLocation();
     await selectLocation(locationKey);
@@ -48,7 +50,7 @@ function gameLoop() {
 
         const lootDollars = diver.getLoot();
         addSandDollars(lootDollars);
-        diver.returnFromTrip();
+        diver.returnFromTrip(lootDollars);
         returned.push({
             id: diver.id,
             name: diver.name,
@@ -57,7 +59,7 @@ function gameLoop() {
             location: diver.location,
         });
 
-        diver.startDive(chooseDiverFloor());
+        diver.startDive(chooseDiverFloor(diver));
     }
 
     if (returned.length > 0) {
@@ -65,6 +67,8 @@ function gameLoop() {
     }
 
     renderUI();
+    updateDiverCard();   // does nothing when no card is open
+    refreshTooltip();    // does nothing when the mouse isn't over a tip
 }
 
 //THE LOOP: requestAnimationFrame runs frame() right before the screen draws.
@@ -100,10 +104,18 @@ const ACTIONS = {
     floorPlus: floorPlus,
     hire: hireDiver,
     buyStat: buyStat,
-    setRisk: setRisk,
     buyUpgrade: buyUpgrade,
     showReturnGroup: showReturnGroup,
+    showDiver: showDiver,
+    closeCard: closeCard,
 };
+
+// Escape closes the diver card
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+        closeCard();
+    }
+});
 
 // One listener for the whole page (event delegation).
 // closest() finds the button even when you click a <span> inside it.
