@@ -1,4 +1,4 @@
-const LOCATIONS = {
+export const LOCATIONS = {
     // FLOOR 1–6
     sunlit: {
         name: "Sunlit Zone",

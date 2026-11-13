@@ -32,20 +32,22 @@
         <div class="board">
             <div class="currency">
                 <span class='label'>Sand dollars</span>
-                <span class='money' data-state='sandDollars' id="sandDollars">142,805</span>
-                <div class="rate">
-                <div class="rate">+<span data-state="sandRate">3.2</span>/s</div>
-                </div>
+                <span class='money' data-state='sandDollars' id="sandDollars">0</span>
+                <div class="rate">+<span data-state="sandRate">0</span>/s</div>
             </div>
 
             <div class='upgrades'>
                 <span class='label'>Upgrades</span>
-                <div class='tiles'>
-                    <button class='tile' id="testTile"><span>Hire</span><span class='muted' id="hireCost">0</span></button>
-                    <button class='tile owned' title='Dive suit (owned)'><span>Suit</span><span class='muted'>owned</span></button>
-                    <button class='tile' title='Lamp: see more finds' disabled><span>Lamp</span><span class='muted'>400</span></button>
-                    <button class='tile' title='Locked' disabled><span>?</span><span class='muted'>locked</span></button>
-                </div>
+                <!-- Filled from the UPGRADES list in data.js -->
+                <div class='tiles' id="tiles"></div>
+
+                <!-- The blueprint for one tile. A template is never shown itself. -->
+                <template id="tileTemplate">
+                    <button class='tile' data-action="buyUpgrade">
+                        <span class="tileName"></span>
+                        <span class="muted tileCost"></span>
+                    </button>
+                </template>
             </div>
 
             <div class="left">
@@ -55,7 +57,7 @@
                         <h2 class="row">Level: <span data-state="captainLevel">3</span></h2>
                     </div>
                     <div class="row">
-                        <button class="floorButton" id="floorMinus">&minus;</button>
+                        <button class="floorButton" id="floorMinus" data-action="floorMinus">&minus;</button>
                         <div class="center">
                             <div>
                                 <span class="floorLabel">Floor: </span>
@@ -63,14 +65,15 @@
                             </div>
                             <span class="muted" data-state="floorSelectedName">Twilight</span>
                         </div>
-                        <button class="floorButton" id="floorPlus">&plus;</button>
+                        <button class="floorButton" id="floorPlus" data-action="floorPlus">&plus;</button>
                     </div>
 
 
-                    <button class="big" id="dive-button">Dive</button>
+                    <button class="big" id="dive-button" data-action="dive">Dive</button>
 
                     <p class="floorStats">Survival at floor <span data-state="floorSelected">9</span>: <span data-state="survivalRate">94</span>%</p>
-                    <p class="floorStats">Your deepest: floor <span data-state="floorRecord">10</span></p>
+                    <p class="floorStats">Your deepest: floor <span data-state="floorRecord">1</span></p>
+                    <p class="floorStats">XP: <span data-state="totalXP">0</span> / <span data-state="nextLevelXP">500</span></p>
                 </div>
 
                 <div class="panel">
@@ -78,17 +81,17 @@
                     <div class="row statRow">
                         <span>Strength</span>
                         <b data-state="strength" class="statNumber">1</b>
-                        <button class="stat-button" id="strengthPlus">+</button>
+                        <button class="stat-button" data-action="buyStat" data-stat="strength">+</button>
                     </div>
                     <div class="row statRow">
                         <span>Agility</span>
                         <b data-state="agility" class="statNumber">1</b>
-                        <button class="stat-button" id="agilityPlus">+</button>
+                        <button class="stat-button" data-action="buyStat" data-stat="agility">+</button>
                     </div>
                     <div class="row statRow">
                         <span>Intelligence</span>
                         <b data-state="intelligence" class="statNumber">1</b>
-                        <button class="stat-button" id="intelligencePlus">+</button>
+                        <button class="stat-button" data-action="buyStat" data-stat="intelligence">+</button>
                     </div>
                 </div>
 
@@ -117,16 +120,18 @@
                         <span class="muted"><span data-state="diverCount">0</span> diving</span>
                     </div>
 
-                    <button class="big" id="hireButton">
-                        Hire diver: <span id="hireCost">50</span>
+                    <button class="big withPrice" id="hireButton" data-action="hire">
+                        <span>Hire diver</span>
+                        <span class="price"><span id="hireCost">50</span></span>
                     </button>
 
                     <span class="label">Risk dial</span>
+                    <!-- data-risk matches a key in RISK_DIAL (data.js) -->
                     <div class="riskDial">
-                        <button>Very careful</button>
-                        <button class="on">Careful</button>
-                        <button>Bold</button>
-                        <button>Reckless</button>
+                        <button data-action="setRisk" data-risk="veryCareful">Very careful</button>
+                        <button data-action="setRisk" data-risk="careful">Careful</button>
+                        <button data-action="setRisk" data-risk="bold">Bold</button>
+                        <button data-action="setRisk" data-risk="reckless">Reckless</button>
                     </div>
                 </div>
 
@@ -137,12 +142,8 @@
         
     </div>
 
-    <script src="locations.js"></script>
-    <script src="data.js"></script>
-    <script src="functions.js"></script>
-    <script src="dive.js"></script>    
-    <script src="diver.js"></script>    
-    <script src="game.js"></script>
+    <!-- One entry point. game.js imports everything else it needs. -->
+    <script type="module" src="game.js"></script>
 </body>
 
 </html>

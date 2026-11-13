@@ -23,6 +23,11 @@
   box-sizing: border-box;
 }
 
+/* hidden always hides, even on boxes that set their own display (like .tile) */
+[hidden] {
+  display: none !important;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -237,6 +242,21 @@ button, .tab {
 }
 
 /* ---------- Divers ---------- */
+
+/* The Hire button: the price always has its own line, so the button
+   keeps the same size whether it says 50 or 125.56M */
+.hire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  .price {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+}
+
 .riskDial {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -254,4 +274,14 @@ button, .tab {
 
   &.tall   { height: 300px; }   /* Expedition log */
   &.medium { height: 180px; }   /* the Flood */
+
+  /* The list that opens under "(+316 divers)" */
+  .groupList {
+    margin: 4px 0 4px 16px;
+    max-height: 120px;
+    overflow-y: auto;
+    color: var(--muted);
+
+    div { margin-bottom: 0; }
+  }
 }

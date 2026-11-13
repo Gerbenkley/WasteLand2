@@ -1,3 +1,10 @@
+import { STATE, BALANCE } from './data.js';
+import {
+    addTypedLine, clearLog, getCurrentZone, logbox, formatNumber,
+    survivalChance, captainPower, lootValue, randBetween, levelFromXP,
+    addSandDollars, spendSandDollars, updateSandRate
+} from './functions.js';
+
 //ADD CHOICE TO BOX
 function addChoice(container, text, callback) {
     const choice = document.createElement('a');
@@ -33,7 +40,7 @@ function pickRandomLocations(amount) {
 }
 
 //SHOW 3 RANDOM LOCATIONS
-async function pickLocation() {
+export async function pickLocation() {
     const zone = getCurrentZone();
     const locations = pickRandomLocations(3);
 
@@ -61,7 +68,7 @@ async function showLocation(location) {
 }
 
 //SELECT CHOSEN LOCATION
-async function selectLocation(locationKey) {
+export async function selectLocation(locationKey) {
     clearLog(logbox);
     const zone = getCurrentZone();
     const location = zone.locations[locationKey];
@@ -99,11 +106,41 @@ async function enterLocation(locationKey) {
     const zone = getCurrentZone();
     const location = zone.locations[locationKey];
 
+    const floor = STATE.floorSelected;
+
     await addTypedLine(logbox, "You go inside...", 20);
     await addTypedLine(logbox, "[bold red]. . .[/bold red]", 100);
 
+    // Roll the survival chance shown under the Dive button
+    if (Math.random() >= survivalChance(captainPower(), floor)) {
+        await captainLost();
+        return;
+    }
+
     await collectLoot(location.loot, 5);
-    await collectRewards(10, 10);
+
+    const dollars = Math.round(lootValue(floor) * BALANCE.captainLootMultiplier * randBetween(0.8, 1.2));
+    await collectRewards(dollars, floor ** 2);
+    await chartFloor();
+}
+
+//LOST: no loot, no XP, no charting, and 10% of your sand dollars gone
+async function captainLost() {
+    const lost = Math.floor(STATE.sandDollars * BALANCE.captainDeathLoss);
+    spendSandDollars(lost);
+
+    await addTypedLine(logbox, "[bold red]You were lost in the dark.[/bold red]", 30);
+    await addTypedLine(logbox, `A rescue team brought you back, but it cost [red]${formatNumber(lost)} sand dollars[/red].`, 15);
+}
+
+//CHART A NEW FLOOR: surviving a dive deeper than ever lets divers follow
+async function chartFloor() {
+    if (STATE.floorSelected <= STATE.floorRecord) {
+        return;
+    }
+    STATE.floorRecord = STATE.floorSelected;
+    updateSandRate();   // divers can now go deeper, so they earn more per trip
+    await addTypedLine(logbox, `[green]New depth charted.[/green] Your divers can now follow you down to floor ${STATE.floorRecord}.`, 15);
 }
 
 //GET LOOT
@@ -144,9 +181,16 @@ async function collectLoot(lootTable, lootAmount) {
 
 //GET DOLLARS AND XP
 async function collectRewards(sandDollars, xp) {
-    STATE.sandDollars += sandDollars;
+    addSandDollars(sandDollars);
     STATE.totalXP += xp;
 
-    await addTypedLine(logbox, `You also gained [bold yellow]${sandDollars} Sand Dollars[/bold yellow]!`, 20);
-    await addTypedLine(logbox, `You also gained [bold yellow]${xp} XP[/bold yellow].`, 20);
+    await addTypedLine(logbox, `You also gained [bold yellow]${formatNumber(sandDollars)} Sand Dollars[/bold yellow]!`, 20);
+    await addTypedLine(logbox, `You also gained [bold yellow]${formatNumber(xp)} XP[/bold yellow].`, 20);
+
+    // Enough XP for a new level? (Several at once is possible after a deep dive.)
+    const newLevel = levelFromXP(STATE.totalXP);
+    if (newLevel > STATE.captainLevel) {
+        STATE.captainLevel = newLevel;
+        await addTypedLine(logbox, `[bold green]Level up![/bold green] You are now level ${newLevel}.`, 20);
+    }
 }
