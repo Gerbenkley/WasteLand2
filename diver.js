@@ -26,13 +26,15 @@ export class Diver {
         }
     }
 
-    // Go to a floor: pick a location there, and work out when you're back
-    startDive(floor) {
+    // Go to a floor: pick a location there, and work out when you're back.
+    // startsAt is when the trip begins: now for a new diver, or the moment
+    // the last trip ended, so no time is lost while the tab is hidden.
+    startDive(floor, startsAt = Date.now()) {
         this.floor = floor;
         this.location = randomLocationOnFloor(floor).name;
 
         const seconds = tripSeconds(floor) * randBetween(0.9, 1.1);   // plus or minus 10%
-        this.returnsAt = Date.now() + seconds * 1000;
+        this.returnsAt = startsAt + seconds * 1000;
     }
 
     // What this dive brought back: deeper floors pay more

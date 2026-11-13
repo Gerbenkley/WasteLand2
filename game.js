@@ -38,28 +38,30 @@ function gameLoop() {
         if (diver.returnsAt == null) {
             continue;
         }
-        if (diver.returnsAt > timeNow) {
-            continue;
+
+        // Every trip that ended since the last frame. Usually none or one,
+        // but after the tab was hidden it can be many: "while", not "if".
+        while (diver.returnsAt <= timeNow) {
+            // Roll this trip's survival: a lost diver brings nothing back
+            if (Math.random() >= survivalChance(BALANCE.diverPower, diver.floor)) {
+                loseDiver(diver);
+                break;   // stop this diver's trips
+            }
+
+            const lootDollars = diver.getLoot();
+            addSandDollars(lootDollars);
+            diver.returnFromTrip(lootDollars);
+            returned.push({
+                id: diver.id,
+                name: diver.name,
+                loot: lootDollars,
+                floor: diver.floor,
+                location: diver.location,
+            });
+
+            // The next trip starts when this one ended, not now
+            diver.startDive(chooseDiverFloor(diver), diver.returnsAt);
         }
-
-        // Roll this trip's survival: a lost diver brings nothing back
-        if (Math.random() >= survivalChance(BALANCE.diverPower, diver.floor)) {
-            loseDiver(diver);
-            continue;
-        }
-
-        const lootDollars = diver.getLoot();
-        addSandDollars(lootDollars);
-        diver.returnFromTrip(lootDollars);
-        returned.push({
-            id: diver.id,
-            name: diver.name,
-            loot: lootDollars,
-            floor: diver.floor,
-            location: diver.location,
-        });
-
-        diver.startDive(chooseDiverFloor(diver));
     }
 
     if (returned.length > 0) {
