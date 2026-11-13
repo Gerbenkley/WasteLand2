@@ -34,6 +34,11 @@ const STATE = {
     floorBought: 8,
     survivalRate: 100,
     boughtDivers: 0,
+
+    strength: 1,
+    agility: 1,
+    intelligence: 1,
+
     inventory: {
         banana: 0,
     }

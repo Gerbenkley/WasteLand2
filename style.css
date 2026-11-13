@@ -1,89 +1,198 @@
-/* ---------- Page basics ---------- */
+/* ---------- Settings: every colour and size, named once ---------- */
+:root {
+  --bg: #07161f;
+  --text: #cfe8ef;
+  --muted: #8fb3c0;
+  --accent: #8fe3ff;
+  --link: #70d4e8;
+  --border: #2a6a85;
+  --surface: #123446;
+
+  --red: #ff9b8a;
+  --green: #8fd18f;
+  --yellow: #ffd27a;
+  --purple: #c9a3ff;
+
+  --gap: 16px;
+  --pad: 16px;
+  --left-width: 340px;
+  --side-width: 300px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
-  background: #07161f;
-  color: #cfe8ef;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Courier New', monospace;
   font-size: 15px;
-  margin: 1;
-}
-
-.bold   { font-weight: bold; }
-.red    { color: #ff9b8a; }
-.green  { color: #8fd18f; }
-.yellow { color: #ffd27a; }
-.blue   { color: #8fe3ff; }
-.purple { color: #c9a3ff; }
-
-button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.choice {
-    display: block;
-    color: #70d4e8;
-    cursor: pointer;
-    text-decoration: none;
-    margin-top: 8px;
-}
-
-.choice:hover {
-    color: white;
-}
-
-/* ---------- Small helpers ---------- */
-.page {
-  max-width: 1240px;
   margin: 0;
+}
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 5px;
 }
-.muted { color: #8fb3c0; }
-.bad { color: #ff9b8a; }
-.label { display: block; color: #8fb3c0; font-size: 14px; }
 
+/* ---------- Text ---------- */
+.bold   { font-weight: bold; }
+.red    { color: var(--red); }
+.green  { color: var(--green); }
+.yellow { color: var(--yellow); }
+.blue   { color: var(--accent); }
+.purple { color: var(--purple); }
+.muted  { color: var(--muted); }
+.label  { display: block; color: var(--muted); font-size: 14px; }
+.center { text-align: center; }
 .invisible { visibility: hidden; }
 
-.floorLabel {
-    color: #8fb3c0;
-}
+h1 { margin: 0; font-size: 48px; }
+h2 { margin: 0 0 12px; font-size: 16px; }
 
-.floorStats {
-    color: #8fb3c0;
-    margin: 0px;
-}
-
-/* ---------- Top bar ---------- */
+/* ---------- Header ---------- */
 .topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+
+  .tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: center;
-}
-h1 {
-  margin: 0;
-  font-size: 48px;
+    gap: 8px;
+  }
 }
 
-.topstrip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 16px;
-    align-items: stretch;
+.settings {
+  position: relative;
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .settings-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    z-index: 1;
+  }
 }
 
-.currency {
-  width: 340px;
-  box-sizing: border-box;
-  padding: 12px 16px;
-  border: 1px solid #2a6a85;
+/* ---------- Buttons ---------- */
+button, .tab {
+  font: inherit;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 13px var(--pad);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
-.upgrades {
-  width: 340px;
-  box-sizing: border-box;
-  padding: 12px 16px;
-  border: 1px solid #2a6a85;
+.on {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.big {
+  width: 100%;
+  font-size: 20px;
+  padding: 18px;
+  margin-bottom: 10px;
+}
+
+/* A clickable location choice in the log */
+.choice {
+  display: block;
+  margin-top: 8px;
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover { color: white; }
+}
+
+/* A diver's name in the Flood: a button that looks like a link */
+.name {
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+}
+
+/* ---------- The board: one grid, three columns ----------
+     sand   upgrades  side
+     left   middle    side
+*/
+.board {
+  display: grid;
+  grid-template-columns: var(--left-width) minmax(400px, 1fr) var(--side-width);
+  grid-template-areas:
+    "sand  upgrades side"
+    "left  middle   side";
+  gap: var(--gap);
+  margin-top: var(--gap);
+
+  .currency { grid-area: sand; }
+  .upgrades { grid-area: upgrades; }
+  .left     { grid-area: left; }
+  .middle   { grid-area: middle; }
+  .side     { grid-area: side; }
+
+  /* Narrower windows: Divers and Shipyard move underneath */
+  @media (max-width: 1100px) {
+    grid-template-columns: var(--left-width) minmax(0, 1fr);
+    grid-template-areas:
+      "sand  upgrades"
+      "left  middle"
+      "side  side";
+  }
+
+  /* Phones: one column */
+  @media (max-width: 800px) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "sand" "left" "upgrades" "middle" "side";
+  }
+}
+
+/* Columns stack their boxes */
+.left, .middle, .side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  min-width: 0;
+}
+
+/* Every box on the board looks the same */
+.panel, .currency, .upgrades {
+  border: 1px solid var(--border);
+  padding: var(--pad);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+/* ---------- Sand dollars and Upgrades ---------- */
+.money {
+  font-size: 24px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
 }
 
 .tiles {
@@ -102,180 +211,47 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  &.owned {
+    color: var(--green);
+    border-color: var(--green);
+  }
 }
 
-.tile.owned {
-  color: #8fd18f;
-  border-color: #8fd18f;
-}
+/* ---------- Captain ---------- */
+.floorLabel, .floorStats { color: var(--muted); }
+.floorStats { margin: 0; }
 
+.statRow {
+  display: grid;
+  grid-template-columns: 1fr 40px auto;
+  align-items: center;
+  gap: 12px;
 
-/* ---------- Settings (a box you open and close) ---------- */
-.settings {
-  position: relative;
-}
+  .statNumber { text-align: center; }
 
-.settings summary {
-  list-style:none;
-}
-
-.settings-box {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 0px;
-  padding: 0px;
-  background: #07161f;
-  border: 1px solid #2a6a85;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-/* ---------- Sand dollars ---------- */
-
-.money {
-  font-size: 24px;
-  font-weight: bold;
-  font-variant-numeric: tabular-nums;
-}
-
-
-/* ---------- Buttons and tabs ---------- */
-summary {
-    font: inherit;
-    cursor: pointer;
-}
-
-button, .tab {
-    font: inherit;
-    color: #8fe3ff;
-    background: #123446;
-    border: 1px solid #2a6a85;
-    padding: 13px 16px;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.on {
-    background: #8fe3ff;
-    color: #07161f;
-}
-
-.tabs {
-    display: flex;
-    gap: 8px;
-}
-
-.big {
-  width: 100%;
-  font-size: 20px;
-  padding: 18px;
-  margin-bottom: 10px;
-}
-
-/* A name in the Flood: a button that looks like a link */
-.name {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #8fe3ff;
-  text-decoration: underline;
-}
-
-/* ---------- Layout: left column + right column ---------- */
-.layout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 16px;
-    align-items: flex;
-}
-
-.left {
-    width: 340px;
-}
-
-.right {
-    flex: 1;
-    min-width: 720px;
-}
-
-.narrow {
-    flex: none;
-    width: 520px;
-}
-
-
-
-/* ---------- Boxes ---------- */
-.panel {
-    border: 1px solid #2a6a85;
-    padding: 16px;
-    margin-bottom: 16px;
-}
-
-.panel h2 {
-    margin: 0 0 12px 0;
-    font-size: 16px;
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    gap: 5px;
-}
-
-.center {
-    text-align: center;
-}
-
-.stat-button {
+  .stat-button {
+    width: 40px;
     padding: 2px;
-    width: 80px;
+  }
 }
 
-
-
-progress {
-    width: 100%;
-    height: 14px;
-    accent-color: #8fe3ff;
-    margin-bottom: 8px;
-    display: block;
+/* ---------- Divers ---------- */
+.riskDial {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 /* ---------- Logs ---------- */
 .logbox {
-    border: 1px solid #123446;
-    padding: 8px;
-    overflow: auto;
-}
+  border: 1px solid var(--surface);
+  padding: 8px;
+  overflow-y: auto;
+  overflow-anchor: none;   /* lets the Flood code keep the view still */
 
-.logbox div {
-    margin-bottom: 4px;
-}
+  div { margin-bottom: 4px; }
 
-.tall {height: 300px;}
-.medium {height: 150;}
-.short {height: 84;}
-
-
-
-/* ---------- Divers tab: Flood and card side by side ---------- */
-.split {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.split .panel {
-  flex: 1 1 280px;
-}
-
-.logbox.medium {
-    height: 180px;
-    overflow-y: auto;
-    overflow-anchor: none;
+  &.tall   { height: 300px; }   /* Expedition log */
+  &.medium { height: 180px; }   /* the Flood */
 }
